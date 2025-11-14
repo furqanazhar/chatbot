@@ -22,9 +22,9 @@ from services.ai_agent import LogisticsAIAgent
 from services.conversation_db import ConversationDB
 
 # Show title and description.
-st.title("🚚 Logistics Chatbot")
+st.title("🚚 Logistics Agent")
 st.write(
-    "This is a logistics assistant chatbot powered by LangChain. "
+    "This is a logistics assistant agent powered by ReAct and LangChain. "
     "It can help you with logistics operations, procedures, schedules, and more. "
 )
 
