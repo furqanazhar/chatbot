@@ -51,9 +51,12 @@ st.markdown("""
         border-radius: 10px;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
         margin-top: 1rem;
-        max-width: 900px;
-        margin-left: auto;
-        margin-right: auto;
+        max-width: 100% !important;
+        width: 100% !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        padding-left: 1rem;
+        padding-right: 1rem;
     }
     
     /* Title styling */
@@ -70,13 +73,60 @@ st.markdown("""
         color: #e5e7eb;
     }
     
-    /* Chat message containers */
+    /* Chat message containers - increase width */
     .stChatMessage {
         padding: 0.75rem 1rem;
         border-radius: 10px;
         margin-bottom: 0.3rem !important;
         margin-top: 0 !important;
         background: linear-gradient(135deg, #5568d3 0%, #6b4a8a 100%) !important;
+        max-width: 100% !important;
+        width: 100% !important;
+        box-sizing: border-box;
+    }
+    
+    /* Ensure markdown content within chat messages doesn't overflow */
+    .stChatMessage .stMarkdown {
+        max-width: 100% !important;
+        width: 100% !important;
+        overflow-x: hidden;
+        box-sizing: border-box;
+    }
+    
+    /* Increase width of element containers holding chat messages */
+    [data-testid="element-container"] {
+        max-width: 100% !important;
+        width: 100% !important;
+    }
+    
+    /* Ensure vertical blocks containing messages use full width */
+    [data-testid="stVerticalBlock"] {
+        max-width: 100% !important;
+        width: 100% !important;
+    }
+    
+    /* Ensure tables within chat messages fit properly */
+    .stChatMessage table {
+        max-width: 100% !important;
+        width: 100% !important;
+        table-layout: auto;
+        box-sizing: border-box;
+    }
+    
+    /* Ensure table cells don't overflow and size based on content */
+    .stChatMessage table th,
+    .stChatMessage table td {
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        white-space: normal;
+    }
+    
+    /* Make first column (Stop) narrower since it only has numbers */
+    .stChatMessage table th:first-child,
+    .stChatMessage table td:first-child {
+        width: auto;
+        min-width: 50px;
+        max-width: 80px;
     }
     
     /* Spacing between chat messages */
@@ -139,12 +189,24 @@ st.markdown("""
     }
     
     /* Chat input styling - simple and clean */
+    .stChatInput {
+        padding: 0 !important;
+        margin-bottom: 0 !important;
+        margin-top: 0 !important;
+    }
+    
+    .stChatInput > div {
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+    
     .stChatInput > div > div {
         background: rgba(255, 255, 255, 0.1) !important;
         border-radius: 25px;
         box-shadow: none !important;
         border: 1px solid rgba(255, 255, 255, 0.2) !important;
         position: relative;
+        padding: 0.5rem 1rem !important;
     }
     
     /* Remove any pseudo-elements that might create double round shapes */
@@ -205,6 +267,40 @@ st.markdown("""
         color: rgba(255, 255, 255, 0.6) !important;
     }
     
+    /* Reduce vertical size of bottom container (white/gradient area) - minimal */
+    [data-testid="stAppViewContainer"] > [data-testid="stVerticalBlock"]:last-child {
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+    
+    [data-testid="stVerticalBlock"]:has(.stChatInput) {
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+    
+    [data-testid="element-container"]:has(.stChatInput) {
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+    
+    /* Further reduce spacing around chat input container */
+    [data-testid="stVerticalBlock"] > [data-testid="element-container"]:has(.stChatInput) {
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+    
+    /* Remove all spacing from containers holding chat input */
+    [data-testid="stAppViewContainer"] [data-testid="stVerticalBlock"]:has(.stChatInput) {
+        padding: 0 !important;
+        margin: 0 !important;
+        gap: 0 !important;
+    }
+    
+    [data-testid="stAppViewContainer"] [data-testid="element-container"]:has(.stChatInput) {
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+    
     /* Info boxes */
     .stInfo {
         background: linear-gradient(135deg, #5568d3 0%, #6b4a8a 100%);
@@ -227,27 +323,47 @@ st.markdown("""
     }
     
     /* Markdown tables */
+    .stChatMessage table,
     table {
         border-collapse: collapse;
         width: 100%;
         margin: 1rem 0;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         background: linear-gradient(135deg, #5568d3 0%, #6b4a8a 100%);
+        table-layout: auto;
+    }
+    
+    /* Ensure table cells wrap text properly and size based on content */
+    table th,
+    table td {
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        white-space: normal;
+    }
+    
+    /* Make first column (Stop) narrower since it only has numbers */
+    table th:first-child,
+    table td:first-child {
+        width: auto;
+        min-width: 50px;
+        max-width: 80px;
     }
     
     table th {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: #667eea !important;
         color: #ffffff;
         padding: 12px;
         text-align: left;
         font-weight: 600;
         border: 1px solid #7a5fa8;
+        font-size: 0.85rem !important;
     }
     
     table td {
         padding: 10px 12px;
         border-bottom: 1px solid #6b4a8a;
         color: #ffffff;
+        font-size: 0.8rem !important;
     }
     
     table tr:hover {
@@ -442,109 +558,123 @@ else:
         # Ensure agent has the latest references
         st.session_state.ai_agent.conversation_db = st.session_state.conversation_db
         st.session_state.ai_agent.session_id = st.session_state.session_id
+
+    # Create a session state variable to store the chat messages. This ensures that the
+    # messages persist across reruns.
+    if "messages" not in st.session_state:
+        st.session_state.messages = []
+        # Try to load conversation history from database
+        try:
+            history = st.session_state.conversation_db.get_conversation_history(
+                st.session_state.session_id
+            )
+            if history:
+                # Convert database format to streamlit format
+                for msg in history:
+                    st.session_state.messages.append({
+                        "role": msg["role"],
+                        "content": msg["content"],
+                        "assistance_required": msg["assistance_required"]
+                    })
+                logger.info(f"Loaded {len(history)} messages from database")
+        except Exception as e:
+            logger.warning(f"Could not load conversation history: {e}")
+
+    # Display the existing chat messages via `st.chat_message`.
+    for message in st.session_state.messages:
+        with st.chat_message(message["role"]):
+            st.markdown(message["content"])
+            # Show assistance indicator if this was a message requiring human assistance
+            if message.get("assistance_required", False):
+                st.info("🤝 Human assistance may be required for this query.")
+
+    # Create a chat input field to allow the user to enter a message. This will display
+    # automatically at the bottom of the page.
+    if prompt := st.chat_input("Ask about logistics operations, schedules, or procedures..."):
+
+        # Store the current prompt in session state (will be displayed by the loop above)
+        st.session_state.messages.append({"role": "user", "content": prompt})
         
-        # Create a session state variable to store the chat messages. This ensures that the
-        # messages persist across reruns.
-        if "messages" not in st.session_state:
-            st.session_state.messages = []
-            # Try to load conversation history from database
+        # Save user message to database
+        try:
+            st.session_state.conversation_db.save_message(
+                session_id=st.session_state.session_id,
+                role="user",
+                content=prompt,
+                assistance_required=False
+            )
+        except Exception as e:
+            logger.error(f"Error saving user message to database: {e}")
+
+        # Force immediate rerun to display user message right away
+        st.rerun()
+
+    # Process the last user message if it hasn't been responded to yet
+    # This check runs on every rerun, not just when a new message is sent
+    if (st.session_state.messages and 
+        st.session_state.messages[-1]["role"] == "user" and
+        not hasattr(st.session_state, "_processing_message")):
+        
+        # Set flag to prevent duplicate processing
+        st.session_state._processing_message = True
+        
+        # Get the last user message
+        last_user_message = st.session_state.messages[-1]["content"]
+        
+        # Generate a response using the LangChain agent.
+        with st.spinner("Processing your query..."):
             try:
-                history = st.session_state.conversation_db.get_conversation_history(
-                    st.session_state.session_id
-                )
-                if history:
-                    # Convert database format to streamlit format
-                    for msg in history:
-                        st.session_state.messages.append({
-                            "role": msg["role"],
-                            "content": msg["content"],
-                            "assistance_required": msg["assistance_required"]
-                        })
-                    logger.info(f"Loaded {len(history)} messages from database")
+                result = st.session_state.ai_agent.process_message(question=last_user_message)
+                
+                # Extract response message and assistance requirement
+                response_message = result.get('msg', 'No response generated.')
+                is_assistance_required = result.get('is_assistance_required', False)
+                
+                # Store the response in session state (will be displayed by the loop above)
+                st.session_state.messages.append({
+                    "role": "assistant", 
+                    "content": response_message,
+                    "assistance_required": is_assistance_required
+                })
+                
+                # Save assistant message to database
+                try:
+                    st.session_state.conversation_db.save_message(
+                        session_id=st.session_state.session_id,
+                        role="assistant",
+                        content=response_message,
+                        assistance_required=is_assistance_required,
+                        metadata={"query": last_user_message}
+                    )
+                except Exception as e:
+                    logger.error(f"Error saving assistant message to database: {e}")
+                
+                # Clear processing flag and force a rerun to display the new messages
+                if "_processing_message" in st.session_state:
+                    del st.session_state._processing_message
+                st.rerun()
+                    
             except Exception as e:
-                logger.warning(f"Could not load conversation history: {e}")
-
-        # Display the existing chat messages via `st.chat_message`.
-        for message in st.session_state.messages:
-            with st.chat_message(message["role"]):
-                st.markdown(message["content"])
-                # Show assistance indicator if this was a message requiring human assistance
-                if message.get("assistance_required", False):
-                    st.info("🤝 Human assistance may be required for this query.")
-
-        # Create a chat input field to allow the user to enter a message. This will display
-        # automatically at the bottom of the page.
-        if prompt := st.chat_input("Ask about logistics operations, schedules, or procedures..."):
-
-            # Store and display the current prompt.
-            st.session_state.messages.append({"role": "user", "content": prompt})
-            with st.chat_message("user"):
-                st.markdown(prompt)
-            
-            # Save user message to database
-            try:
-                st.session_state.conversation_db.save_message(
-                    session_id=st.session_state.session_id,
-                    role="user",
-                    content=prompt,
-                    assistance_required=False
-                )
-            except Exception as e:
-                logger.error(f"Error saving user message to database: {e}")
-
-            # Generate a response using the LangChain agent.
-            with st.chat_message("assistant"):
-                with st.spinner("Processing your query..."):
-                    try:
-                        result = st.session_state.ai_agent.process_message(question=prompt)
-                        
-                        # Extract response message and assistance requirement
-                        response_message = result.get('msg', 'No response generated.')
-                        is_assistance_required = result.get('is_assistance_required', False)
-                        
-                        # Display the response
-                        st.markdown(response_message)
-                        
-                        # Show assistance indicator if needed
-                        if is_assistance_required:
-                            st.info("🤝 Human assistance may be required for this query.")
-                        
-                        # Store the response in session state
-                        st.session_state.messages.append({
-                            "role": "assistant", 
-                            "content": response_message,
-                            "assistance_required": is_assistance_required
-                        })
-                        
-                        # Save assistant message to database
-                        try:
-                            st.session_state.conversation_db.save_message(
-                                session_id=st.session_state.session_id,
-                                role="assistant",
-                                content=response_message,
-                                assistance_required=is_assistance_required,
-                                metadata={"query": prompt}
-                            )
-                        except Exception as e:
-                            logger.error(f"Error saving assistant message to database: {e}")
-                            
-                    except Exception as e:
-                        error_message = f"❌ Error processing query: {str(e)}"
-                        st.error(error_message)
-                        st.session_state.messages.append({
-                            "role": "assistant", 
-                            "content": error_message,
-                            "assistance_required": True
-                        })
-                        
-                        # Save error message to database
-                        try:
-                            st.session_state.conversation_db.save_message(
-                                session_id=st.session_state.session_id,
-                                role="assistant",
-                                content=error_message,
-                                assistance_required=True,
-                                metadata={"error": str(e), "query": prompt}
-                            )
-                        except Exception as db_error:
-                            logger.error(f"Error saving error message to database: {db_error}")
+                error_message = f"❌ Error processing query: {str(e)}"
+                st.session_state.messages.append({
+                    "role": "assistant", 
+                    "content": error_message,
+                    "assistance_required": True
+                })
+                
+                # Save error message to database
+                try:
+                    st.session_state.conversation_db.save_message(
+                        session_id=st.session_state.session_id,
+                        role="assistant",
+                        content=error_message,
+                        assistance_required=True,
+                        metadata={"error": str(e), "query": last_user_message}
+                    )
+                except Exception as db_error:
+                    logger.error(f"Error saving error message to database: {db_error}")
+                
+                # Clear processing flag and force a rerun to display the error message
+                if "_processing_message" in st.session_state:
+                    del st.session_state._processing_message
+                st.rerun()
