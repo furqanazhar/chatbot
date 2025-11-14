@@ -1,6 +1,7 @@
 import streamlit as st
 import os
 import logging
+import uuid
 from dotenv import load_dotenv
 
 # Set up logging to display in terminal (must be before importing agent)
@@ -16,8 +17,9 @@ logger = logging.getLogger(__name__)
 
 load_dotenv()
 
-# Import agent after logging is configured
+# Import agent and database after logging is configured
 from services.ai_agent import LogisticsAIAgent
+from services.conversation_db import ConversationDB
 
 # Show title and description.
 st.title("🚚 Logistics Chatbot")
@@ -45,7 +47,15 @@ else:
     if "ai_agent" not in st.session_state:
         with st.spinner("Initializing logistics AI agent..."):
             try:
-                st.session_state.ai_agent = LogisticsAIAgent()
+                # Initialize conversation database first (needed for agent)
+                conversation_db = ConversationDB()
+                session_id = str(uuid.uuid4())
+                
+                # Initialize agent with conversation database and session ID
+                st.session_state.ai_agent = LogisticsAIAgent(
+                    conversation_db=conversation_db,
+                    session_id=session_id
+                )
                 st.success("✅ AI agent initialized successfully!")
             except Exception as e:
                 st.error(f"❌ Failed to initialize AI agent: {str(e)}")
@@ -53,10 +63,38 @@ else:
 
     # Only proceed if agent is initialized
     if st.session_state.get("ai_agent") is not None:
+        # Get conversation database and session ID from agent
+        if "conversation_db" not in st.session_state:
+            st.session_state.conversation_db = st.session_state.ai_agent.conversation_db
+        
+        if "session_id" not in st.session_state:
+            st.session_state.session_id = st.session_state.ai_agent.session_id
+            logger.info(f"Session ID: {st.session_state.session_id}")
+        
+        # Ensure agent has the latest references
+        st.session_state.ai_agent.conversation_db = st.session_state.conversation_db
+        st.session_state.ai_agent.session_id = st.session_state.session_id
+        
         # Create a session state variable to store the chat messages. This ensures that the
         # messages persist across reruns.
         if "messages" not in st.session_state:
             st.session_state.messages = []
+            # Try to load conversation history from database
+            try:
+                history = st.session_state.conversation_db.get_conversation_history(
+                    st.session_state.session_id
+                )
+                if history:
+                    # Convert database format to streamlit format
+                    for msg in history:
+                        st.session_state.messages.append({
+                            "role": msg["role"],
+                            "content": msg["content"],
+                            "assistance_required": msg["assistance_required"]
+                        })
+                    logger.info(f"Loaded {len(history)} messages from database")
+            except Exception as e:
+                logger.warning(f"Could not load conversation history: {e}")
 
         # Display the existing chat messages via `st.chat_message`.
         for message in st.session_state.messages:
@@ -74,6 +112,17 @@ else:
             st.session_state.messages.append({"role": "user", "content": prompt})
             with st.chat_message("user"):
                 st.markdown(prompt)
+            
+            # Save user message to database
+            try:
+                st.session_state.conversation_db.save_message(
+                    session_id=st.session_state.session_id,
+                    role="user",
+                    content=prompt,
+                    assistance_required=False
+                )
+            except Exception as e:
+                logger.error(f"Error saving user message to database: {e}")
 
             # Generate a response using the LangChain agent.
             with st.chat_message("assistant"):
@@ -98,6 +147,19 @@ else:
                             "content": response_message,
                             "assistance_required": is_assistance_required
                         })
+                        
+                        # Save assistant message to database
+                        try:
+                            st.session_state.conversation_db.save_message(
+                                session_id=st.session_state.session_id,
+                                role="assistant",
+                                content=response_message,
+                                assistance_required=is_assistance_required,
+                                metadata={"query": prompt}
+                            )
+                        except Exception as e:
+                            logger.error(f"Error saving assistant message to database: {e}")
+                            
                     except Exception as e:
                         error_message = f"❌ Error processing query: {str(e)}"
                         st.error(error_message)
@@ -106,3 +168,15 @@ else:
                             "content": error_message,
                             "assistance_required": True
                         })
+                        
+                        # Save error message to database
+                        try:
+                            st.session_state.conversation_db.save_message(
+                                session_id=st.session_state.session_id,
+                                role="assistant",
+                                content=error_message,
+                                assistance_required=True,
+                                metadata={"error": str(e), "query": prompt}
+                            )
+                        except Exception as db_error:
+                            logger.error(f"Error saving error message to database: {db_error}")

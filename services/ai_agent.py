@@ -18,9 +18,9 @@ load_dotenv()
 
 
 class LogisticsAIAgent:
-    """AI Agent for Logistics chatbot using LangChain with FAQ, handbook, schedule, and get_help tools"""
+    """AI Agent for Logistics chatbot using LangChain with FAQ, handbook, schedule, conversation history, and get_help tools"""
     
-    def __init__(self, chromadb_dir: str = "chroma_db", faq_collection: str = "faqs", handbook_collection: str = "handbook", schedule_collection: str = "schedules"):
+    def __init__(self, chromadb_dir: str = "chroma_db", faq_collection: str = "faqs", handbook_collection: str = "handbook", schedule_collection: str = "schedules", conversation_db=None, session_id=None):
         self.openai_api_key = os.getenv("OPENAI_API_KEY")
         if not self.openai_api_key:
             raise ValueError("OPENAI_API_KEY not found in environment variables")
@@ -42,7 +42,11 @@ class LogisticsAIAgent:
         self.chroma_db_schedules = None
         self._initialize_chromadb()
         
-        # Initialize ReAct agent with FAQ, handbook, schedule, and get_help tools
+        # Store conversation database and session ID for conversation history
+        self.conversation_db = conversation_db
+        self.session_id = session_id
+        
+        # Initialize ReAct agent with FAQ, handbook, schedule, conversation history, and get_help tools
         self.react_agent = self._create_react_agent()
     
     def _initialize_chromadb(self):
@@ -260,6 +264,11 @@ class LogisticsAIAgent:
             
             Note: Default driver is DRV001 (John Martinez). When users ask about "my route", "my deliveries", etc., search for this driver.
             
+            IMPORTANT: When interpreting "first stop" vs "last stop":
+            - "First stop" = the stop with the smallest stop number (e.g., stop 1) OR the earliest delivery time
+            - "Last stop" = the stop with the largest stop number (e.g., stop 6) OR the latest delivery time
+            - Always prioritize stop number over time when determining first/last stops
+            
             Args:
                 question: The user's question or query about driver schedules, routes, or deliveries
                 
@@ -282,8 +291,9 @@ class LogisticsAIAgent:
                     enhanced_question = f"{question} DRV001 John Martinez"
                     logger.info(f"Enhanced schedule query with driver context: {enhanced_question}")
                 
-                # Perform similarity search
-                results = self.chroma_db_schedules.similarity_search_with_score(enhanced_question, k=3)
+                # Perform similarity search - retrieve all available records
+                # Using a high k value to ensure we get all schedule entries
+                results = self.chroma_db_schedules.similarity_search_with_score(enhanced_question, k=50)
                 logger.info(f"📅 Found {len(results)} relevant schedule entries")
                 
                 if results:
@@ -346,6 +356,67 @@ class LogisticsAIAgent:
                     "human_assistance_required": True
                 })
         
+        def get_conversation_history(limit: int = 10) -> str:
+            """Get recent conversation history to understand context and provide more tailored responses.
+            
+            CRITICAL: ALWAYS use this tool FIRST when:
+            - The user's question is short, ambiguous, or incomplete (e.g., "and time", "and distance", "what about it", "tell me more")
+            - The user's question refers to something mentioned earlier (e.g., "What about that delivery?", "Tell me more about that")
+            - You need context about previous questions or topics discussed
+            - The user asks follow-up questions that require understanding previous conversation
+            - The question seems unrelated to logistics but might be a follow-up to a logistics question
+            - You want to provide more personalized responses based on conversation history
+            
+            IMPORTANT: For short phrases like "and time", "and distance", "what about...", "tell me more", etc., you MUST use this tool FIRST before determining if the question is logistics-related. These are likely follow-up questions to previous logistics queries.
+            
+            Args:
+                limit: Number of recent messages to retrieve (default: 10, max: 50)
+                
+            Returns:
+                JSON string with conversation history or error message
+            """
+            try:
+                if not self.conversation_db or not self.session_id:
+                    return json.dumps({
+                        "text_msg": "Conversation history is not available.",
+                        "human_assistance_required": False
+                    })
+                
+                # Limit the number of messages retrieved
+                limit = min(max(1, limit), 50)
+                
+                # Get conversation history
+                history = self.conversation_db.get_conversation_history(
+                    session_id=self.session_id,
+                    limit=limit
+                )
+                
+                if not history:
+                    return json.dumps({
+                        "text_msg": "No previous conversation history found.",
+                        "human_assistance_required": False
+                    })
+                
+                # Format conversation history for the agent
+                history_parts = []
+                for msg in history:
+                    role_label = "User" if msg['role'] == 'user' else "Assistant"
+                    history_parts.append(f"{role_label}: {msg['content']}")
+                
+                history_text = "\n".join(history_parts)
+                
+                return json.dumps({
+                    "text_msg": f"Recent conversation history ({len(history)} messages):\n\n{history_text}",
+                    "human_assistance_required": False
+                })
+                
+            except Exception as e:
+                logger.error(f"❌ Error retrieving conversation history: {str(e)}")
+                return json.dumps({
+                    "text_msg": f"Error retrieving conversation history: {str(e)}",
+                    "human_assistance_required": False
+                })
+        
         def get_help() -> str:
             """Get help information - this requires human assistance."""
             return json.dumps({
@@ -363,8 +434,8 @@ DRIVER INFORMATION:
 
 CRITICAL RULES:
 - For simple greetings like "Hi", "Hello", "Hey", "Bye", "Thank you", "Thanks" - do not use any tools and provide the final answer immediately. Keep responses concise and natural (e.g., "You're welcome!" for "Thank you").
-- NEVER mention "tools", "FAQ tool", "handbook tool", "schedule tool", "get_help tool", "human assistance", "database", "search", or any internal system processes to the user. Always respond as if you naturally know or don't know the information directly.
-- NEVER explain your process. Do NOT say things like "I searched the FAQs", "I found this in the handbook", "I checked the schedule", "I found this in the database", "The system shows", etc. Just provide the information naturally or use get_help naturally without explaining your process.
+- NEVER mention "tools", "FAQ tool", "handbook tool", "schedule tool", "conversation history tool", "get_help tool", "human assistance", "database", "search", "previous conversation", or any internal system processes to the user. Always respond as if you naturally know or don't know the information directly.
+- NEVER explain your process. Do NOT say things like "I searched the FAQs", "I found this in the handbook", "I checked the schedule", "I looked at our previous conversation", "I found this in the database", "The system shows", etc. Just provide the information naturally or use get_help naturally without explaining your process.
 - Keep responses direct and to the point - avoid generic closing phrases like "If you have any other questions", "feel free to ask", etc. End your response naturally after providing the information.
 - When using search_faqs, search_handbook, or search_schedules tools, synthesize the information from multiple sources if needed and provide a clear, comprehensive answer. Do NOT just list the information - provide a natural response based on what you found.
 - SCOPE LIMITATION: ONLY answer questions related to logistics operations, medical distribution logistics, warehouse operations, shipping/receiving, inventory management, safety procedures, compliance, employee policies, equipment handling, transportation, and other logistics-related topics. For questions completely unrelated to logistics (e.g., general knowledge, entertainment, sports, politics, personal advice, cooking recipes, technology tutorials unrelated to logistics, etc.), politely decline by saying something like "I'm a logistics assistant and can only help with logistics-related questions. Please ask me about logistics operations, procedures, or policies." Do NOT use any tools for irrelevant questions - just provide a polite decline message directly.
@@ -374,25 +445,34 @@ EMERGENCY RULE: For any immediate/emergency/incident/accident situations (fire, 
 You have access to the following tools:
 1. search_faqs(question) - Search the FAQ database for quick answers about standard operating procedures, policies, and common questions. Use this for: standard procedures, quick policy questions, common operational questions, employee policies, basic safety procedures. FAQs provide concise, direct answers.
 2. search_handbook(question) - Search the comprehensive logistics handbook for detailed information, in-depth procedures, guidelines, and best practices. Use this for: detailed operational procedures, comprehensive safety protocols, driving and transportation guidelines, manpower management, detailed compliance information, training requirements, equipment specifications, and when you need more comprehensive information than FAQs provide.
-3. search_schedules(question) - Search driver schedules and delivery routes for information about daily routes, deliveries, packages, destinations, and delivery times. Use this for: questions about driver routes ("What's my route for today?", "What deliveries do I have?"), delivery destinations and addresses, package details and contents, delivery times and deadlines, special instructions, pickup locations, route distances, and package priorities. This tool provides real-time schedule and delivery information. IMPORTANT: The default driver is DRV001 (John Martinez). When users ask about "my route", "my deliveries", "my schedule", etc., automatically search for DRV001's schedule without asking for driver details.
-4. get_help() - Request human assistance. ALWAYS use this immediately for: (1) emergency/incident/accident situations, (2) requests requiring actions (cancellations, refunds, order changes, billing disputes, complaints, etc.), (3) explicit requests to connect with support ("connect me with support", "I need to speak with someone", "get me a human", etc.), (4) when search_faqs, search_handbook, and search_schedules don't provide sufficient information. IMPORTANT: When you use get_help tool, use the EXACT response message from the tool - do NOT modify it or add placeholder text. Simply use the tool's response as your final answer.
+3. search_schedules(question) - Search driver schedules and delivery routes for information about daily routes, deliveries, packages, destinations, and delivery times. Use this for: questions about driver routes ("What's my route for today?", "What deliveries do I have?"), delivery destinations and addresses, package details and contents, delivery times and deadlines, special instructions, pickup locations, route distances, and package priorities. This tool provides real-time schedule and delivery information. IMPORTANT: The default driver is DRV001 (John Martinez). When users ask about "my route", "my deliveries", "my schedule", etc., automatically search for DRV001's schedule without asking for driver details. CRITICAL: When users ask about "first stop" or "last stop", interpret as follows: "first stop" = the stop with the smallest stop number OR the earliest delivery time; "last stop" = the stop with the largest stop number OR the latest delivery time. Always identify the correct stop based on stop number (primary) or delivery time (if stop numbers are not available).
+4. get_conversation_history(limit) - Retrieve recent conversation history to understand context and provide more tailored, personalized responses. CRITICAL: ALWAYS use this FIRST when: (1) the user's question is short, ambiguous, or incomplete (e.g., "and time", "and distance", "what about it", "tell me more"), (2) the user's question refers to something mentioned earlier (e.g., "What about that delivery?", "Tell me more", "What was that again?"), (3) you need context about previous questions or topics, (4) the user asks follow-up questions, (5) the question seems unrelated but might be a follow-up to a logistics question. The limit parameter (default: 10, max: 50) controls how many recent messages to retrieve. Use this tool BEFORE scope checks and BEFORE other tools when the question is ambiguous or short.
+5. get_help() - Request human assistance. ALWAYS use this immediately for: (1) emergency/incident/accident situations, (2) requests requiring actions (cancellations, refunds, order changes, billing disputes, complaints, etc.), (3) explicit requests to connect with support ("connect me with support", "I need to speak with someone", "get me a human", etc.), (4) when search_faqs, search_handbook, and search_schedules don't provide sufficient information. IMPORTANT: When you use get_help tool, use the EXACT response message from the tool - do NOT modify it or add placeholder text. Simply use the tool's response as your final answer.
 
 Instructions:
-- Scope Check: FIRST, determine if the question is related to logistics operations. If it's completely unrelated (e.g., general knowledge, entertainment, personal advice, etc.), politely decline without using any tools.
+- Context Check FIRST: For short, ambiguous, or incomplete questions (e.g., "and time", "and distance", "what about it", "tell me more", "that one", etc.), ALWAYS use get_conversation_history FIRST before making any decisions. These are likely follow-up questions to previous logistics queries. DO NOT reject them as non-logistics without checking context.
+- Scope Check: After checking conversation history (if needed), determine if the question is related to logistics operations. If it's completely unrelated (e.g., general knowledge, entertainment, personal advice, etc.) AND not a follow-up to a logistics question, politely decline without using any tools.
+- Context Awareness: If the user's question seems to refer to something mentioned earlier, is a follow-up question, or uses vague references (e.g., "that delivery", "what about it", "tell me more", "and time", "and distance"), FIRST use get_conversation_history to understand the context before using other tools or making scope decisions.
 - Tool Usage Hierarchy (ONLY for logistics-related questions): 
-  * For questions about driver routes, schedules, deliveries, packages, destinations, or delivery times, FIRST try search_schedules tool.
-  * For quick, standard questions about procedures or policies, FIRST try search_faqs tool.
-  * For detailed, comprehensive questions or when FAQs don't provide enough detail, try search_handbook tool.
+  * If context is needed, FIRST use get_conversation_history to understand previous conversation.
+  * For questions about driver routes, schedules, deliveries, packages, destinations, or delivery times, use search_schedules tool.
+  * When search_schedules returns multiple stops and the user asks about "first stop" or "last stop", identify the correct stop: "first" = smallest stop number (e.g., stop 1) or earliest delivery time; "last" = largest stop number (e.g., stop 6) or latest delivery time. Always check the stop_number metadata to determine first/last.
+  * For quick, standard questions about procedures or policies, use search_faqs tool.
+  * For detailed, comprehensive questions or when FAQs don't provide enough detail, use search_handbook tool.
   * You can use MULTIPLE tools if needed - for example, if a question involves both schedule information and procedures, use both search_schedules and search_faqs.
   * If none of the search tools provide sufficient information or the question requires human intervention, use get_help tool.
 - For general logistics questions that you can answer naturally without tools, provide helpful responses.
-- When tools return information, synthesize it into a clear, natural response. Combine information from multiple sources if needed. Don't just repeat the format - provide the information as if you know it directly.
+- When tools return information, synthesize it into a clear, natural response. Use conversation history to tailor your response style and provide more personalized answers. Combine information from multiple sources if needed. Don't just repeat the format - provide the information as if you know it directly.
+- Personalization: Use conversation history to remember user preferences, previous topics discussed, and provide continuity in the conversation. Reference previous exchanges naturally when relevant.
 - If you cannot provide information after trying the search tools, use get_help tool.
 
 Examples:
 - "What's my route for today?" / "What deliveries do I have?" / "Where do I need to deliver packages?": Use search_schedules tool to find driver route and delivery information for DRV001 (John Martinez). Do NOT ask which driver - assume it's the default driver.
 - "What packages am I delivering to Medical City Plano?": Use search_schedules tool to find specific delivery and package details for DRV001 (John Martinez).
-- "What's my last stop today?": Use search_schedules tool to find the last stop for DRV001 (John Martinez).
+- "What's my last stop today?" / "What's my first stop?": Use search_schedules tool to find the appropriate stop for DRV001 (John Martinez). Remember: "first stop" = smallest stop number or earliest time; "last stop" = largest stop number or latest time. When the tool returns multiple stops, identify the correct one based on stop number (first = lowest number, last = highest number).
+- "What about that delivery?" / "Tell me more about that" / "What was that again?": FIRST use get_conversation_history to understand what the user is referring to, then use appropriate tools based on context.
+- "and time" / "and distance" / "and packages" / "what about it": These are short follow-up questions. ALWAYS use get_conversation_history FIRST to see the previous question (e.g., if previous question was about travel distance, "and time" means travel time). Then use appropriate tools (e.g., search_schedules) based on the context.
+- User asks "what's my total travel distance?" → You answer with distance. User then asks "and time" → FIRST use get_conversation_history to see they asked about distance, then use search_schedules to find travel time information.
 - "How do I handle temperature-sensitive medications?": First try search_faqs for a quick answer. If more detail is needed, also try search_handbook.
 - "What are the detailed safety procedures for driving?": Use search_handbook tool for comprehensive information.
 - "What is the procedure for receiving medical supplies?": First try search_faqs, then search_handbook if more detail is needed.
@@ -404,7 +484,7 @@ Use the following format:
 
 Question: the input question you must answer
 Thought: you should always think about what to do
-Action: the action to take, should be one of [search_faqs, search_handbook, search_schedules, get_help]
+Action: the action to take, should be one of [search_faqs, search_handbook, search_schedules, get_conversation_history, get_help]
 Action Input: the input to the action
 Observation: the result of the action
 ... (this Thought/Action/Action Input/Observation can repeat N times)
@@ -413,8 +493,8 @@ Final Answer: the final answer to the original input question
 
 Begin!"""
 
-        # Create the ReAct agent with FAQ search, handbook search, schedule search, and get_help tools
-        tools = [search_faqs, search_handbook, search_schedules, get_help]
+        # Create the ReAct agent with FAQ search, handbook search, schedule search, conversation history, and get_help tools
+        tools = [search_faqs, search_handbook, search_schedules, get_conversation_history, get_help]
         return create_agent(
             self.llm,
             tools=tools,
