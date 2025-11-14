@@ -1,4 +1,4 @@
-# 🚚 Logistics Agent
+# 🚚 RX Logistics Agent
 
 An intelligent logistics assistant agent powered by LangChain, ReAct agent, and OpenAI. This agent helps with logistics operations, procedures, schedules, and provides context-aware responses using conversation history.
 
