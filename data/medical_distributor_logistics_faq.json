@@ -1,0 +1,787 @@
+[
+    {
+        "question": "What is the standard operating procedure for receiving medical supplies?",
+        "answer": "When receiving medical supplies, always verify the purchase order number, check for visible damage, confirm temperature-sensitive items are within acceptable temperature range, verify lot numbers and expiration dates, and immediately report any discrepancies to the receiving supervisor. All items must be inspected before acceptance."
+    },
+    {
+        "question": "How do I handle temperature-sensitive medications during receiving?",
+        "answer": "Temperature-sensitive medications must be checked immediately upon receipt. Verify the temperature monitoring device shows the product stayed within the required temperature range (typically 2-8°C for refrigerated items). If temperature is out of range, quarantine the product and notify the quality assurance team immediately. Do not accept products that have been exposed to improper temperatures."
+    },
+    {
+        "question": "What documentation is required when receiving shipments?",
+        "answer": "Required documentation includes: packing slip, bill of lading, certificate of analysis (for pharmaceuticals), temperature monitoring records (for cold chain items), and any special handling instructions. All documents must be date-stamped and filed according to our retention policy."
+    },
+    {
+        "question": "How should I handle damaged products during receiving?",
+        "answer": "Immediately quarantine damaged products in the designated quarantine area. Document the damage with photos, complete a damage report form, notify the receiving supervisor and quality assurance team, and do not process the damaged items into inventory. Follow the specific damage handling procedure for your department."
+    },
+    {
+        "question": "What is the procedure for checking expiration dates on incoming products?",
+        "answer": "Check expiration dates on all incoming products. Products with less than 6 months until expiration must be flagged and reported to inventory management. Products that are already expired must be rejected and returned to the supplier. Record all expiration dates in the inventory management system."
+    },
+    {
+        "question": "How do I verify lot numbers during receiving?",
+        "answer": "Compare the lot number on the product packaging with the lot number on the packing slip and purchase order. All three must match. If there's a discrepancy, quarantine the product and notify the quality assurance team immediately. Never accept products with mismatched lot numbers."
+    },
+    {
+        "question": "What is the first-in-first-out (FIFO) inventory system?",
+        "answer": "FIFO means the oldest products (earliest expiration dates) must be shipped first. When picking orders, always select products with the earliest expiration dates. When putting away new inventory, place newer products behind older ones. This ensures product freshness and reduces waste."
+    },
+    {
+        "question": "How do I properly store refrigerated medications?",
+        "answer": "Refrigerated medications must be stored in designated cold storage units maintaining 2-8°C. Monitor temperature twice daily and log readings. Never store medications in regular refrigerators used for food. Ensure proper air circulation by not overpacking shelves. Keep temperature logs for regulatory compliance."
+    },
+    {
+        "question": "What is the procedure for handling controlled substances?",
+        "answer": "Controlled substances require special handling: they must be stored in locked, secure areas with restricted access, all movements must be documented in the controlled substance log, two-person verification is required for all transactions, and any discrepancies must be reported immediately to the DEA compliance officer."
+    },
+    {
+        "question": "How should I handle hazardous materials?",
+        "answer": "Hazardous materials must be stored in designated hazmat storage areas with proper ventilation, clearly labeled with hazard symbols, stored according to compatibility groups, and handled only by trained personnel wearing appropriate PPE. Always refer to the Safety Data Sheet (SDS) for specific handling requirements."
+    },
+    {
+        "question": "What personal protective equipment (PPE) is required in the warehouse?",
+        "answer": "Required PPE includes: safety shoes with steel toes, high-visibility vests, cut-resistant gloves when handling sharp objects, safety glasses when working with chemicals or operating equipment, and hearing protection in high-noise areas. Additional PPE may be required for specific tasks - check with your supervisor."
+    },
+    {
+        "question": "How do I operate the forklift safely?",
+        "answer": "Only certified operators may use forklifts. Always perform a pre-shift inspection, wear seatbelts, maintain clear visibility, never exceed load capacity, drive at safe speeds, use horns at intersections, and never allow riders. Report any equipment issues immediately to maintenance."
+    },
+    {
+        "question": "What is the procedure for picking orders?",
+        "answer": "Review the pick list, verify the location and product description, check expiration dates and select the oldest stock first (FIFO), scan the barcode to confirm correct product, verify quantity, place items in appropriate shipping containers, and update the system to reflect the pick. Double-check all picks for accuracy."
+    },
+    {
+        "question": "How do I handle backorders?",
+        "answer": "When an item is out of stock, mark it as backordered in the system, notify the customer service team, check with purchasing for expected arrival date, and update the customer order status. Do not ship partial orders without customer approval unless company policy allows it."
+    },
+    {
+        "question": "What is the procedure for packing temperature-sensitive products?",
+        "answer": "Use approved insulated shipping containers, include appropriate cold packs or dry ice based on transit time and temperature requirements, ensure temperature monitoring devices are activated, pack products securely to prevent movement, label clearly with temperature requirements, and document all packing details in the shipping system."
+    },
+    {
+        "question": "How should I pack fragile medical equipment?",
+        "answer": "Use appropriate cushioning materials (bubble wrap, foam, etc.), ensure items are secured to prevent movement, use double-wall corrugated boxes for heavy items, clearly label as fragile, and consider using specialized packaging for sensitive equipment. Follow manufacturer's packaging guidelines when available."
+    },
+    {
+        "question": "What information must be on shipping labels?",
+        "answer": "Shipping labels must include: recipient name and address, return address, tracking number, special handling instructions (fragile, temperature-sensitive, etc.), hazard labels if applicable, and any regulatory markings required for medical devices or pharmaceuticals."
+    },
+    {
+        "question": "How do I handle same-day shipping requests?",
+        "answer": "Same-day shipping requests must be approved by a supervisor. Process these orders immediately with priority, ensure all quality checks are completed, coordinate with shipping carriers for pickup times, and confirm shipment with the customer. Document the expedited handling in the system."
+    },
+    {
+        "question": "What is the procedure for shipping controlled substances?",
+        "answer": "Controlled substances require: valid DEA registration number for recipient, proper documentation and forms, secure packaging, signature-required delivery, and detailed shipping records. All shipments must comply with DEA regulations. Verify all requirements before shipping."
+    },
+    {
+        "question": "How do I handle returns from customers?",
+        "answer": "Inspect returned items for damage and completeness, verify the return authorization number, check product condition and expiration dates, quarantine items until quality assurance review, document the return in the system, and follow the specific return processing procedure for your department."
+    },
+    {
+        "question": "What is the quarantine procedure for returned products?",
+        "answer": "All returned products must be placed in the designated quarantine area immediately upon receipt. Do not mix with regular inventory. Quality assurance will inspect and determine if products can be returned to inventory, need to be destroyed, or returned to the manufacturer. Follow their instructions."
+    },
+    {
+        "question": "How do I process expired products?",
+        "answer": "Expired products must be removed from active inventory immediately, moved to the designated expired products area, documented in the system, and reported to inventory management. Follow the specific disposal procedure - some products require special handling or return to manufacturer. Never ship expired products."
+    },
+    {
+        "question": "What is the cycle counting procedure?",
+        "answer": "Cycle counting is performed regularly to maintain inventory accuracy. Count items in designated areas, compare physical count to system count, investigate and document any discrepancies, and update the system with correct quantities. Report significant variances to your supervisor immediately."
+    },
+    {
+        "question": "How do I handle inventory discrepancies?",
+        "answer": "Document the discrepancy immediately, investigate possible causes (mispicks, theft, damage, system errors), report to your supervisor, and follow the discrepancy resolution procedure. Maintain detailed records of all discrepancies for audit purposes."
+    },
+    {
+        "question": "What is the procedure for reporting safety incidents?",
+        "answer": "Immediately notify your supervisor and safety coordinator, provide first aid if trained and safe to do so, complete an incident report form within 24 hours, document the circumstances and any witnesses, and participate in the incident investigation. All incidents, no matter how minor, must be reported."
+    },
+    {
+        "question": "How do I handle a spill of hazardous materials?",
+        "answer": "Evacuate the area if necessary, notify your supervisor and safety team immediately, refer to the Safety Data Sheet (SDS) for specific cleanup procedures, use appropriate PPE and spill cleanup materials, contain the spill to prevent spread, and follow proper disposal procedures for contaminated materials."
+    },
+    {
+        "question": "What should I do in case of a fire in the warehouse?",
+        "answer": "Activate the nearest fire alarm, evacuate the building immediately using designated exits, call 911 from a safe location, notify your supervisor, and report to the assembly point. Never attempt to fight a fire unless you are trained and it is safe to do so. Do not use elevators during evacuation."
+    },
+    {
+        "question": "How do I report equipment malfunctions?",
+        "answer": "Immediately tag the equipment as out of service, notify your supervisor and maintenance department, document the issue in the maintenance request system, and do not attempt to use the equipment until it has been repaired and cleared by maintenance."
+    },
+    {
+        "question": "What is the procedure for accessing the warehouse management system (WMS)?",
+        "answer": "Use your assigned login credentials, never share your password, log out when finished, and report any system issues to IT support. Access is granted based on your role and responsibilities. Unauthorized access or system misuse may result in disciplinary action."
+    },
+    {
+        "question": "How do I scan barcodes correctly?",
+        "answer": "Ensure the barcode is clean and undamaged, hold the scanner at the appropriate distance (usually 4-6 inches), ensure adequate lighting, scan at a slight angle if needed, and verify the scanned information matches the product before proceeding. Report any scanning issues to your supervisor."
+    },
+    {
+        "question": "What is the procedure for handling customer complaints?",
+        "answer": "Listen carefully to the complaint, document all details, apologize for any inconvenience, escalate to your supervisor or customer service team, and follow up to ensure resolution. Never argue with customers or make promises you cannot keep. All complaints must be documented in the customer service system."
+    },
+    {
+        "question": "How do I handle rush orders?",
+        "answer": "Rush orders require supervisor approval. Process immediately with priority, ensure all quality checks are still completed, coordinate with all departments involved, and confirm completion with the requester. Document the rush order handling in the system."
+    },
+    {
+        "question": "What is the procedure for handling product recalls?",
+        "answer": "Immediately quarantine all affected products upon notification, identify all locations where products are stored, document lot numbers and quantities, follow the specific recall procedure provided, and coordinate with quality assurance and customer service teams. Never ship recalled products."
+    },
+    {
+        "question": "How do I maintain cleanliness in the warehouse?",
+        "answer": "Keep work areas clean and organized, dispose of trash properly, clean up spills immediately, maintain clean floors to prevent slips and falls, and follow the daily cleaning checklist for your area. Report any sanitation concerns to your supervisor."
+    },
+    {
+        "question": "What is the procedure for handling damaged inventory?",
+        "answer": "Move damaged items to the quarantine area immediately, document the damage with photos and written description, complete a damage report, notify your supervisor and quality assurance, and follow the specific disposal or return procedure. Do not attempt to repair or use damaged medical products."
+    },
+    {
+        "question": "How do I verify shipping addresses?",
+        "answer": "Always verify shipping addresses against the order confirmation, check for complete address information including zip codes, verify special delivery instructions, and confirm the address format is correct for the shipping carrier. Report any address discrepancies to customer service before shipping."
+    },
+    {
+        "question": "What is the procedure for handling international shipments?",
+        "answer": "International shipments require additional documentation including customs forms, commercial invoices, certificates of origin, and may require special permits. Verify all documentation is complete, check import/export restrictions, and coordinate with the international shipping specialist. Allow extra time for customs clearance."
+    },
+    {
+        "question": "How do I handle products requiring special handling?",
+        "answer": "Review special handling instructions for each product, use appropriate packaging and labeling, follow temperature requirements, ensure proper documentation, and coordinate with shipping carriers for special services if needed. When in doubt, consult with your supervisor or quality assurance team."
+    },
+    {
+        "question": "What is the procedure for end-of-shift duties?",
+        "answer": "Complete all assigned tasks, clean your work area, return equipment to designated storage, update the system with your progress, communicate any issues to the next shift, secure all materials properly, and ensure all safety protocols are followed before leaving."
+    },
+    {
+        "question": "How do I handle products that require refrigeration but arrived at room temperature?",
+        "answer": "Immediately quarantine the product, document the temperature deviation, notify quality assurance and your supervisor, and do not process into inventory. Quality assurance will determine if the product can be used based on stability data and manufacturer guidelines. Never assume a product is still viable."
+    },
+    {
+        "question": "What is the procedure for handling high-value products?",
+        "answer": "High-value products require additional security measures: store in locked secure areas, maintain detailed inventory records, use two-person verification for all movements, and follow specific handling procedures. Report any discrepancies immediately to security and management."
+    },
+    {
+        "question": "How do I operate the pallet jack safely?",
+        "answer": "Inspect the pallet jack before use, ensure the load is balanced and within capacity, keep hands and feet clear, push rather than pull when possible, use proper lifting techniques, and never exceed the rated capacity. Report any equipment issues immediately."
+    },
+    {
+        "question": "What is the procedure for handling customer special requests?",
+        "answer": "Document the special request clearly, verify it can be accommodated, obtain supervisor approval if required, communicate the request to all relevant departments, and confirm completion with the customer. Some requests may require additional fees or lead time."
+    },
+    {
+        "question": "How do I handle products with missing or damaged labels?",
+        "answer": "Quarantine products with missing or damaged labels immediately, do not attempt to guess product identity, notify quality assurance for proper identification and relabeling, and document the issue. Never use products that cannot be positively identified."
+    },
+    {
+        "question": "What is the procedure for handling products near expiration?",
+        "answer": "Products within 3 months of expiration should be flagged in the system, prioritized for shipping (FIFO), and reported to inventory management. Products within 30 days may require special handling or return to manufacturer depending on company policy."
+    },
+    {
+        "question": "How do I verify product authenticity?",
+        "answer": "Check for proper labeling, verify manufacturer information, inspect packaging for tampering, verify lot numbers match documentation, and report any suspicious products immediately to quality assurance and security. Counterfeit medical products are a serious safety concern."
+    },
+    {
+        "question": "What is the procedure for handling products requiring chain of custody documentation?",
+        "answer": "Maintain detailed records of all product movements, document who handled the product and when, ensure all transfers are properly signed, and maintain records according to regulatory requirements. Chain of custody is critical for certain medical products and controlled substances."
+    },
+    {
+        "question": "How do I handle products that don't match the purchase order?",
+        "answer": "Quarantine the products immediately, document the discrepancy, notify purchasing and your supervisor, and do not process into inventory until the issue is resolved. Follow the specific procedure for handling incorrect shipments."
+    },
+    {
+        "question": "What is the procedure for handling products with quality issues?",
+        "answer": "Quarantine the affected products immediately, document the quality issue in detail, notify quality assurance and your supervisor, and follow their instructions. Do not attempt to resolve quality issues on your own. Quality assurance will determine the appropriate action."
+    },
+    {
+        "question": "How do I handle products requiring special storage conditions?",
+        "answer": "Review storage requirements for each product, ensure proper storage environment (temperature, humidity, light protection), verify storage equipment is functioning correctly, monitor conditions regularly, and document compliance. Report any storage condition issues immediately."
+    },
+    {
+        "question": "What is the procedure for handling products with regulatory restrictions?",
+        "answer": "Verify all regulatory requirements are met, ensure proper documentation and permits are in place, follow specific handling and shipping restrictions, and coordinate with regulatory compliance team. Never ship products that don't meet regulatory requirements."
+    },
+    {
+        "question": "How do I handle products requiring serial number tracking?",
+        "answer": "Record serial numbers in the system for all applicable products, verify serial numbers match documentation, maintain accurate records of all serialized product movements, and report any serial number discrepancies immediately. Serial number tracking is required for many medical devices."
+    },
+    {
+        "question": "What is the procedure for handling products with batch/lot restrictions?",
+        "answer": "Verify batch/lot numbers match documentation, ensure products from different batches are not mixed, follow specific handling requirements for each batch, and maintain accurate batch/lot records. Some batches may have specific restrictions or requirements."
+    },
+    {
+        "question": "How do I handle products requiring calibration or testing?",
+        "answer": "Verify calibration certificates are current and valid, check that products have passed required testing, ensure calibration/test documentation is properly filed, and do not use products that fail calibration or testing. Report any issues to quality assurance."
+    },
+    {
+        "question": "What is the procedure for handling products with special packaging requirements?",
+        "answer": "Use only approved packaging materials, follow manufacturer's packaging specifications, ensure packaging maintains product integrity, verify packaging meets regulatory requirements, and document packaging details. Improper packaging can compromise product safety and efficacy."
+    },
+    {
+        "question": "How do I handle products requiring special documentation?",
+        "answer": "Ensure all required documentation is present and complete, verify documentation accuracy, maintain proper filing of documents, and coordinate with quality assurance for document review. Missing or incorrect documentation can delay shipments and cause compliance issues."
+    },
+    {
+        "question": "What is the procedure for handling products with shipping restrictions?",
+        "answer": "Verify shipping restrictions for each product, ensure proper carrier selection, coordinate special shipping requirements, and document all shipping details. Some products cannot be shipped via certain methods or to certain locations."
+    },
+    {
+        "question": "How do I handle products requiring special handling equipment?",
+        "answer": "Use only approved handling equipment, ensure equipment is properly maintained and calibrated, follow equipment operating procedures, and report any equipment issues immediately. Using improper equipment can damage products and create safety hazards."
+    },
+    {
+        "question": "What is the procedure for handling products with environmental requirements?",
+        "answer": "Maintain proper environmental conditions (temperature, humidity, light, etc.), monitor conditions regularly, document compliance, and report any environmental deviations immediately. Environmental requirements are critical for product stability and safety."
+    },
+    {
+        "question": "How do I handle products requiring special security measures?",
+        "answer": "Follow specific security protocols for high-security products, ensure proper access controls, maintain security documentation, and report any security concerns immediately. Security measures protect both products and personnel."
+    },
+    {
+        "question": "What is the procedure for handling products with special disposal requirements?",
+        "answer": "Follow specific disposal procedures for each product type, use approved disposal methods, maintain disposal documentation, and coordinate with waste management team. Improper disposal can create environmental and safety hazards."
+    },
+    {
+        "question": "How do I handle products requiring special training?",
+        "answer": "Ensure you have received proper training before handling specialized products, follow training procedures exactly, ask questions if unsure, and report any training needs to your supervisor. Specialized products may require specific handling knowledge."
+    },
+    {
+        "question": "What is the procedure for handling products with special labeling requirements?",
+        "answer": "Verify all required labels are present and correct, ensure labels meet regulatory requirements, check label accuracy and legibility, and report any labeling issues immediately. Proper labeling is critical for product safety and regulatory compliance."
+    },
+    {
+        "question": "How do I handle products requiring special documentation retention?",
+        "answer": "Maintain documentation according to retention requirements, ensure proper filing and storage, and coordinate with records management for long-term storage. Documentation retention is required for regulatory compliance and audit purposes."
+    },
+    {
+        "question": "What is the standard work schedule for warehouse employees?",
+        "answer": "Standard warehouse hours are Monday through Friday, 7:00 AM to 4:00 PM, with a one-hour lunch break. Some positions may require shift work, weekends, or overtime. Check with your supervisor for your specific schedule. Punctuality is essential for warehouse operations."
+    },
+    {
+        "question": "How do I request time off?",
+        "answer": "Submit time off requests at least two weeks in advance using the employee portal or time off request form. Requests are subject to supervisor approval based on operational needs. For emergency time off, notify your supervisor as soon as possible."
+    },
+    {
+        "question": "What is the dress code for warehouse employees?",
+        "answer": "Wear company-provided uniforms or appropriate work clothing, closed-toe safety shoes are mandatory, avoid loose clothing or jewelry that could get caught in equipment, and maintain professional appearance. Specific PPE requirements may vary by work area."
+    },
+    {
+        "question": "How do I report to work if I'm going to be late?",
+        "answer": "Call your supervisor as soon as you know you'll be late. Provide an estimated arrival time. Chronic lateness may result in disciplinary action. If you're unable to come to work, follow the call-out procedure."
+    },
+    {
+        "question": "What is the call-out procedure if I'm sick?",
+        "answer": "Call your supervisor at least 2 hours before your shift start time. Provide the reason for your absence and expected return date if known. Follow up with any required documentation (doctor's note, etc.) per company policy. Excessive absences may require medical documentation."
+    },
+    {
+        "question": "How do I access my pay stub?",
+        "answer": "Pay stubs are available through the employee self-service portal. Log in with your employee ID and password. If you need assistance accessing the portal, contact HR. Paper copies can be requested from the payroll department."
+    },
+    {
+        "question": "What benefits are available to employees?",
+        "answer": "Full-time employees are eligible for health insurance, dental insurance, vision insurance, retirement plan, paid time off, and other benefits. Details are available in the employee handbook and from HR. Benefit enrollment typically occurs during your first 30 days of employment."
+    },
+    {
+        "question": "How do I update my personal information?",
+        "answer": "Update your personal information through the employee self-service portal or by submitting a change form to HR. Keep your contact information current, especially emergency contacts. Notify HR immediately of address or name changes."
+    },
+    {
+        "question": "What is the performance review process?",
+        "answer": "Performance reviews are conducted annually. Your supervisor will evaluate your work performance, discuss goals and development opportunities, and provide feedback. Come prepared to discuss your accomplishments, challenges, and career goals."
+    },
+    {
+        "question": "How do I request training or professional development?",
+        "answer": "Discuss training needs with your supervisor, who can coordinate with HR for available training programs. The company offers various training opportunities including safety training, equipment operation, and professional development courses."
+    },
+    {
+        "question": "What is the procedure for reporting harassment or discrimination?",
+        "answer": "Report any harassment or discrimination immediately to your supervisor, HR, or use the anonymous reporting hotline. All reports are taken seriously and investigated promptly. Retaliation against anyone who reports in good faith is strictly prohibited."
+    },
+    {
+        "question": "How do I request a schedule change?",
+        "answer": "Submit a written request to your supervisor explaining the reason and proposed schedule. Schedule changes are subject to operational needs and supervisor approval. Permanent schedule changes may require HR approval."
+    },
+    {
+        "question": "What is the overtime policy?",
+        "answer": "Overtime may be required based on operational needs. Overtime is paid at 1.5 times your regular rate for hours worked over 40 in a workweek. Overtime assignments are typically distributed fairly among qualified employees."
+    },
+    {
+        "question": "How do I report a workplace injury?",
+        "answer": "Immediately notify your supervisor and seek medical attention if needed. Complete an incident report within 24 hours. All workplace injuries, no matter how minor, must be reported. Workers' compensation may apply for work-related injuries."
+    },
+    {
+        "question": "What is the drug and alcohol policy?",
+        "answer": "The company maintains a drug-free workplace. Use of alcohol or illegal drugs on company property is strictly prohibited. Random drug testing may be conducted. Violations may result in immediate termination."
+    },
+    {
+        "question": "How do I request accommodations for a disability?",
+        "answer": "Contact HR to discuss accommodation needs. The company will engage in an interactive process to determine reasonable accommodations that allow you to perform essential job functions while meeting your needs."
+    },
+    {
+        "question": "What is the cell phone policy?",
+        "answer": "Personal cell phone use is restricted during work hours. Cell phones should be stored in lockers or designated areas. Emergency calls may be made with supervisor permission. Violations may result in disciplinary action."
+    },
+    {
+        "question": "How do I access the employee handbook?",
+        "answer": "The employee handbook is available on the company intranet and in the HR department. All employees are expected to read and understand the handbook. Updates are communicated via email and posted notices."
+    },
+    {
+        "question": "What is the procedure for resigning?",
+        "answer": "Submit a written resignation to your supervisor and HR at least two weeks in advance. Complete an exit interview with HR. Return all company property including uniforms, keys, and equipment. Final pay will be processed according to company policy."
+    },
+    {
+        "question": "How do I report a safety concern?",
+        "answer": "Report safety concerns immediately to your supervisor, safety coordinator, or use the anonymous safety hotline. All safety concerns are taken seriously and addressed promptly. Never ignore potential safety hazards."
+    },
+    {
+        "question": "What is the procedure for using company equipment?",
+        "answer": "Only use equipment you are trained and authorized to operate. Perform pre-use inspections, use equipment only for intended purposes, report any malfunctions immediately, and follow all safety procedures. Misuse of equipment may result in disciplinary action."
+    },
+    {
+        "question": "How do I request new safety equipment?",
+        "answer": "Discuss safety equipment needs with your supervisor. The company provides all required safety equipment. If you need replacement or additional equipment, submit a request through your supervisor or the safety department."
+    },
+    {
+        "question": "What is the procedure for handling confidential information?",
+        "answer": "Maintain confidentiality of all company, customer, and patient information. Do not discuss confidential information outside of work. Follow data security protocols. Unauthorized disclosure may result in termination and legal action."
+    },
+    {
+        "question": "How do I report a security breach?",
+        "answer": "Immediately notify your supervisor and security if you suspect a security breach. Do not attempt to investigate on your own. Security will handle the investigation. All security incidents must be reported promptly."
+    },
+    {
+        "question": "What is the procedure for visitors in the warehouse?",
+        "answer": "All visitors must be registered at the front desk, wear visitor badges, be escorted by an employee, and follow all safety protocols. Unauthorized visitors are not permitted in warehouse areas. Report any unauthorized persons immediately to security."
+    },
+    {
+        "question": "How do I handle a customer inquiry about an order?",
+        "answer": "Refer customer inquiries to the customer service department. Do not provide order information directly to customers. If a customer calls the warehouse, politely direct them to customer service and provide the customer service phone number."
+    },
+    {
+        "question": "What is the procedure for handling vendor deliveries?",
+        "answer": "Verify vendor identity and delivery authorization, check delivery against purchase orders, inspect products for damage, complete receiving documentation, and direct vendors to designated receiving areas. Vendors should not have access to warehouse areas beyond receiving."
+    },
+    {
+        "question": "How do I handle a power outage?",
+        "answer": "Secure your work area immediately, follow emergency procedures, assist with securing temperature-sensitive products if needed, and await instructions from management. Backup generators may activate for critical systems. Do not attempt to use equipment until power is restored and cleared by maintenance."
+    },
+    {
+        "question": "What is the procedure for handling severe weather?",
+        "answer": "Follow company severe weather policy, which may include early dismissal or delayed opening. Monitor weather alerts, secure warehouse areas, and follow instructions from management. Your safety is the top priority."
+    },
+    {
+        "question": "How do I handle a medical emergency?",
+        "answer": "Call 911 immediately, notify your supervisor, provide first aid if trained and safe to do so, direct emergency responders to the location, and secure the area. Do not move an injured person unless there is immediate danger."
+    },
+    {
+        "question": "What is the procedure for handling a security alarm?",
+        "answer": "Evacuate the area if instructed, follow security protocols, do not attempt to investigate, and await instructions from security or management. All security alarms are taken seriously and require proper response."
+    },
+    {
+        "question": "How do I handle a product contamination concern?",
+        "answer": "Immediately quarantine the affected products, notify quality assurance and your supervisor, document the concern in detail, and follow quality assurance instructions. Do not attempt to resolve contamination issues on your own."
+    },
+    {
+        "question": "What is the procedure for handling a system outage?",
+        "answer": "Continue manual operations if safe to do so, document all transactions for later entry, notify IT support and your supervisor, and follow backup procedures. Do not attempt to fix system issues yourself."
+    },
+    {
+        "question": "How do I handle a shipping error?",
+        "answer": "Immediately notify your supervisor and customer service, document the error, attempt to intercept the shipment if possible, and follow the error correction procedure. Shipping errors can have serious consequences and must be addressed promptly."
+    },
+    {
+        "question": "What is the procedure for handling a receiving error?",
+        "answer": "Document the error immediately, notify your supervisor and purchasing, quarantine affected products if necessary, and follow the error correction procedure. Receiving errors can impact inventory accuracy and customer orders."
+    },
+    {
+        "question": "How do I handle a quality issue discovered during picking?",
+        "answer": "Set aside the affected products, document the quality issue, notify quality assurance and your supervisor, and select alternative products if available. Do not ship products with known quality issues."
+    },
+    {
+        "question": "What is the procedure for handling a packaging error?",
+        "answer": "Correct the packaging error immediately, verify all products are properly packaged, check that correct labels are applied, and document the correction. Packaging errors can compromise product safety and cause shipping delays."
+    },
+    {
+        "question": "How do I handle a labeling error?",
+        "answer": "Correct labeling errors immediately, verify all labels are accurate and complete, and document the correction. Labeling errors can cause serious problems including shipping to wrong addresses or regulatory violations."
+    },
+    {
+        "question": "What is the procedure for handling a temperature deviation?",
+        "answer": "Document the temperature deviation immediately, quarantine affected products, notify quality assurance and your supervisor, and follow the temperature deviation procedure. Temperature deviations can compromise product safety and efficacy."
+    },
+    {
+        "question": "How do I handle a documentation error?",
+        "answer": "Correct documentation errors immediately, verify all information is accurate, and follow the documentation correction procedure. Documentation errors can cause shipping delays and regulatory compliance issues."
+    },
+    {
+        "question": "What is the procedure for handling a system data error?",
+        "answer": "Document the data error, notify IT support and your supervisor, do not attempt to correct system data yourself, and follow IT instructions. System data errors can impact inventory accuracy and order processing."
+    },
+    {
+        "question": "How do I handle a communication breakdown?",
+        "answer": "Clarify the communication immediately, verify understanding with the other party, document agreements, and escalate to your supervisor if needed. Clear communication is essential for warehouse operations."
+    },
+    {
+        "question": "What is the procedure for handling a process improvement suggestion?",
+        "answer": "Submit process improvement suggestions to your supervisor or through the employee suggestion program. All suggestions are reviewed and considered. Good suggestions may be implemented and recognized."
+    },
+    {
+        "question": "How do I handle a conflict with a coworker?",
+        "answer": "Attempt to resolve the conflict directly and professionally. If unable to resolve, involve your supervisor or HR. Maintain professionalism at all times. Workplace conflicts can impact safety and productivity."
+    },
+    {
+        "question": "What is the procedure for handling a policy question?",
+        "answer": "Ask your supervisor or refer to the employee handbook. For complex policy questions, consult HR. It's important to understand and follow all company policies."
+    },
+    {
+        "question": "How do I handle a training need?",
+        "answer": "Discuss training needs with your supervisor, who can coordinate appropriate training. The company provides various training opportunities. Ongoing training is important for safety and job performance."
+    },
+    {
+        "question": "What is the procedure for handling a certification requirement?",
+        "answer": "Ensure all required certifications are current and valid, renew certifications before expiration, and notify your supervisor of any certification issues. Some positions require specific certifications that must be maintained."
+    },
+    {
+        "question": "How do I handle a performance concern?",
+        "answer": "Discuss performance concerns with your supervisor, seek feedback and coaching, identify areas for improvement, and develop an action plan. The company is committed to helping employees succeed."
+    },
+    {
+        "question": "What is the procedure for handling a career development question?",
+        "answer": "Discuss career goals with your supervisor during performance reviews or one-on-one meetings. The company offers various career development opportunities including training, mentoring, and advancement programs."
+    },
+    {
+        "question": "How do I handle a work-life balance concern?",
+        "answer": "Discuss work-life balance concerns with your supervisor or HR. The company recognizes the importance of work-life balance and may be able to accommodate reasonable requests when possible."
+    },
+    {
+        "question": "What is the procedure for handling a compensation question?",
+        "answer": "Compensation questions should be directed to HR or your supervisor. Compensation is based on various factors including position, experience, and performance. Discuss compensation during performance reviews."
+    },
+    {
+        "question": "How do I handle a benefits question?",
+        "answer": "Benefits questions should be directed to HR. HR can provide detailed information about available benefits, enrollment, and coverage. Keep your benefits information current."
+    },
+    {
+        "question": "What is the procedure for new employee orientation?",
+        "answer": "New employees attend orientation on their first day, which includes company overview, safety training, policy review, and facility tour. Bring required documentation including identification and work authorization. Ask questions during orientation."
+    },
+    {
+        "question": "How do I get my employee ID badge?",
+        "answer": "Employee ID badges are issued during orientation or by HR. Badges must be worn at all times while on company property. Report lost or damaged badges to HR immediately for replacement."
+    },
+    {
+        "question": "What is the procedure for accessing the employee parking area?",
+        "answer": "Employee parking is available in designated areas. Display your parking permit if required. Do not park in visitor or reserved spaces. Follow all parking regulations. Report parking issues to facilities management."
+    },
+    {
+        "question": "How do I access the break room?",
+        "answer": "Break rooms are available for employee use during designated break times. Clean up after yourself, respect others' space, and follow break room rules. Report any issues to facilities management."
+    },
+    {
+        "question": "What is the procedure for using the time clock?",
+        "answer": "Clock in at the start of your shift and clock out at the end. Clock out for lunch breaks. Accurate timekeeping is essential for payroll. Report any timekeeping issues to your supervisor or payroll immediately."
+    },
+    {
+        "question": "How do I handle a payroll question?",
+        "answer": "Payroll questions should be directed to the payroll department or HR. Common questions include pay rates, deductions, and pay stub information. Keep your payroll information current and accurate."
+    },
+    {
+        "question": "What is the procedure for requesting a transfer to another department?",
+        "answer": "Discuss transfer interests with your supervisor and HR. Transfers are subject to availability, qualifications, and operational needs. Internal job postings are available for interested employees."
+    },
+    {
+        "question": "How do I handle a question about company policies?",
+        "answer": "Refer to the employee handbook or ask your supervisor or HR. It's important to understand and follow all company policies. Policy updates are communicated via email and posted notices."
+    },
+    {
+        "question": "What is the procedure for reporting unethical behavior?",
+        "answer": "Report unethical behavior immediately to your supervisor, HR, or use the anonymous ethics hotline. All reports are taken seriously and investigated. Retaliation is strictly prohibited."
+    },
+    {
+        "question": "How do I handle a question about regulatory compliance?",
+        "answer": "Regulatory compliance questions should be directed to the compliance department or quality assurance. Compliance is critical in medical distribution. When in doubt, ask rather than assume."
+    },
+    {
+        "question": "What is the procedure for handling a question about product regulations?",
+        "answer": "Product regulation questions should be directed to quality assurance or regulatory affairs. Different products have different regulatory requirements. It's important to understand and follow all regulations."
+    },
+    {
+        "question": "How do I handle a question about shipping regulations?",
+        "answer": "Shipping regulation questions should be directed to the shipping department or compliance. Shipping regulations vary by product type and destination. Always verify regulatory requirements before shipping."
+    },
+    {
+        "question": "What is the procedure for handling a question about storage regulations?",
+        "answer": "Storage regulation questions should be directed to quality assurance or compliance. Storage regulations are critical for product safety and regulatory compliance. Follow all storage requirements exactly."
+    },
+    {
+        "question": "How do I handle a question about documentation requirements?",
+        "answer": "Documentation requirement questions should be directed to quality assurance or compliance. Proper documentation is essential for regulatory compliance and audit purposes. When in doubt, document more rather than less."
+    },
+    {
+        "question": "What is the procedure for handling a question about audit requirements?",
+        "answer": "Audit requirement questions should be directed to quality assurance or compliance. Audits are conducted regularly to ensure regulatory compliance. Cooperate fully with audit processes and maintain accurate records."
+    },
+    {
+        "question": "How do I handle a question about quality assurance procedures?",
+        "answer": "Quality assurance procedure questions should be directed to the quality assurance department. Quality assurance is critical for product safety and regulatory compliance. Follow all QA procedures exactly."
+    },
+    {
+        "question": "What is the procedure for handling a question about safety procedures?",
+        "answer": "Safety procedure questions should be directed to your supervisor or the safety department. Safety is the top priority. Follow all safety procedures exactly and report any safety concerns immediately."
+    },
+    {
+        "question": "How do I handle a question about equipment procedures?",
+        "answer": "Equipment procedure questions should be directed to your supervisor or maintenance. Only use equipment you are trained to operate. Follow all equipment procedures exactly and report any equipment issues immediately."
+    },
+    {
+        "question": "What is the procedure for handling a question about software systems?",
+        "answer": "Software system questions should be directed to IT support or your supervisor. Only use systems you are trained to use. Report any system issues to IT support immediately. Do not attempt to fix system problems yourself."
+    },
+    {
+        "question": "How do I handle a question about inventory procedures?",
+        "answer": "Inventory procedure questions should be directed to your supervisor or inventory management. Accurate inventory management is critical for operations. Follow all inventory procedures exactly."
+    },
+    {
+        "question": "What is the procedure for handling a question about shipping procedures?",
+        "answer": "Shipping procedure questions should be directed to your supervisor or the shipping department. Accurate shipping is critical for customer satisfaction. Follow all shipping procedures exactly."
+    },
+    {
+        "question": "How do I handle a question about receiving procedures?",
+        "answer": "Receiving procedure questions should be directed to your supervisor or the receiving department. Accurate receiving is critical for inventory management. Follow all receiving procedures exactly."
+    },
+    {
+        "question": "What is the procedure for handling a question about packing procedures?",
+        "answer": "Packing procedure questions should be directed to your supervisor or the shipping department. Proper packing is critical for product safety and customer satisfaction. Follow all packing procedures exactly."
+    },
+    {
+        "question": "How do I handle a question about labeling procedures?",
+        "answer": "Labeling procedure questions should be directed to your supervisor or the shipping department. Proper labeling is critical for shipping accuracy and regulatory compliance. Follow all labeling procedures exactly."
+    },
+    {
+        "question": "What is the procedure for handling a question about documentation procedures?",
+        "answer": "Documentation procedure questions should be directed to your supervisor or quality assurance. Proper documentation is critical for regulatory compliance and audit purposes. Follow all documentation procedures exactly."
+    },
+    {
+        "question": "How do I handle a question about compliance procedures?",
+        "answer": "Compliance procedure questions should be directed to the compliance department or quality assurance. Compliance is critical in medical distribution. Follow all compliance procedures exactly and ask questions when unsure."
+    },
+    {
+        "question": "What is the procedure for handling a question about quality procedures?",
+        "answer": "Quality procedure questions should be directed to quality assurance. Quality is critical for product safety and regulatory compliance. Follow all quality procedures exactly and report any quality concerns immediately."
+    },
+    {
+        "question": "How do I handle a question about safety procedures?",
+        "answer": "Safety procedure questions should be directed to your supervisor or the safety department. Safety is the top priority. Follow all safety procedures exactly and report any safety concerns immediately."
+    },
+    {
+        "question": "What is the procedure for handling products requiring special permits?",
+        "answer": "Verify all required permits are current and valid, ensure permits match the products being handled, maintain permit documentation, and coordinate with regulatory affairs for permit renewals. Never handle products without required permits."
+    },
+    {
+        "question": "How do I handle products requiring special licenses?",
+        "answer": "Verify all required licenses are current and valid, ensure licenses match the products being handled, maintain license documentation, and coordinate with regulatory affairs for license renewals. License requirements vary by product type and jurisdiction."
+    },
+    {
+        "question": "What is the procedure for handling products with import/export restrictions?",
+        "answer": "Verify all import/export restrictions before shipping, ensure proper documentation and permits are in place, coordinate with international shipping specialists, and follow all customs requirements. Violations can result in serious penalties."
+    },
+    {
+        "question": "How do I handle products requiring special certifications?",
+        "answer": "Verify all required certifications are current and valid, ensure certifications match the products, maintain certification documentation, and coordinate with quality assurance for certification renewals. Some products require specific certifications."
+    },
+    {
+        "question": "What is the procedure for handling products with country-specific requirements?",
+        "answer": "Verify country-specific requirements for each destination, ensure proper documentation and labeling, coordinate with international shipping specialists, and follow all local regulations. Requirements vary significantly by country."
+    },
+    {
+        "question": "How do I handle products requiring special handling due to size or weight?",
+        "answer": "Use appropriate equipment and techniques for heavy or oversized items, ensure proper packaging and labeling, coordinate with shipping carriers for special handling, and follow all safety procedures. Improper handling can cause injury and product damage."
+    },
+    {
+        "question": "What is the procedure for handling products requiring special handling due to fragility?",
+        "answer": "Use appropriate packaging materials and techniques, ensure products are properly secured, clearly label as fragile, and coordinate with shipping carriers for special handling. Fragile products require extra care to prevent damage."
+    },
+    {
+        "question": "How do I handle products requiring special handling due to value?",
+        "answer": "Follow additional security protocols for high-value products, ensure proper insurance coverage, use secure packaging and shipping methods, and maintain detailed records. High-value products require extra security measures."
+    },
+    {
+        "question": "What is the procedure for handling products requiring special handling due to urgency?",
+        "answer": "Process urgent orders immediately with priority, ensure all quality checks are still completed, coordinate with all departments involved, and confirm completion with the requester. Urgent orders still require proper handling procedures."
+    },
+    {
+        "question": "How do I handle products requiring special handling due to customer requirements?",
+        "answer": "Review customer requirements carefully, ensure all requirements can be met, coordinate with relevant departments, and confirm completion with the customer. Customer-specific requirements must be followed exactly."
+    },
+    {
+        "question": "What is the procedure for handling products requiring special handling due to regulatory requirements?",
+        "answer": "Verify all regulatory requirements are met, ensure proper documentation and handling, coordinate with regulatory affairs, and follow all regulations exactly. Regulatory requirements are mandatory and non-negotiable."
+    },
+    {
+        "question": "How do I handle products requiring special handling due to safety requirements?",
+        "answer": "Follow all safety protocols for hazardous or dangerous products, use appropriate PPE, ensure proper packaging and labeling, and coordinate with safety department. Safety requirements protect both products and personnel."
+    },
+    {
+        "question": "What is the procedure for handling products requiring special handling due to environmental requirements?",
+        "answer": "Maintain proper environmental conditions, monitor conditions regularly, ensure proper packaging and storage, and coordinate with environmental compliance team. Environmental requirements protect product integrity and the environment."
+    },
+    {
+        "question": "How do I handle products requiring special handling due to quality requirements?",
+        "answer": "Follow all quality assurance procedures, ensure proper handling and storage, maintain quality documentation, and coordinate with quality assurance team. Quality requirements ensure product safety and efficacy."
+    },
+    {
+        "question": "What is the procedure for handling products requiring special handling due to shipping requirements?",
+        "answer": "Verify shipping requirements for each product, ensure proper carrier selection and packaging, coordinate special shipping needs, and document all shipping details. Shipping requirements ensure products arrive safely and on time."
+    },
+    {
+        "question": "How do I handle products requiring special handling due to storage requirements?",
+        "answer": "Maintain proper storage conditions, monitor conditions regularly, ensure proper storage equipment, and coordinate with storage management. Storage requirements ensure product integrity and safety."
+    },
+    {
+        "question": "What is the procedure for handling products requiring special handling due to documentation requirements?",
+        "answer": "Ensure all required documentation is present and complete, verify documentation accuracy, maintain proper filing, and coordinate with documentation management. Documentation requirements ensure regulatory compliance."
+    },
+    {
+        "question": "How do I handle products requiring special handling due to tracking requirements?",
+        "answer": "Maintain accurate tracking records, verify tracking information, ensure proper documentation, and coordinate with tracking systems. Tracking requirements ensure product traceability and regulatory compliance."
+    },
+    {
+        "question": "What is the procedure for handling products requiring special handling due to security requirements?",
+        "answer": "Follow all security protocols, ensure proper access controls, maintain security documentation, and coordinate with security team. Security requirements protect products and prevent theft or tampering."
+    },
+    {
+        "question": "How do I handle products requiring special handling due to disposal requirements?",
+        "answer": "Follow specific disposal procedures, use approved disposal methods, maintain disposal documentation, and coordinate with waste management team. Disposal requirements ensure proper handling of waste products."
+    },
+    {
+        "question": "What is the procedure for handling products requiring special handling due to training requirements?",
+        "answer": "Ensure you have received proper training, follow training procedures exactly, ask questions if unsure, and report any training needs. Training requirements ensure proper product handling and safety."
+    },
+    {
+        "question": "How do I handle products requiring special handling due to equipment requirements?",
+        "answer": "Use only approved equipment, ensure equipment is properly maintained, follow equipment procedures, and report any equipment issues. Equipment requirements ensure proper product handling and safety."
+    },
+    {
+        "question": "What is the procedure for handling products requiring special handling due to facility requirements?",
+        "answer": "Ensure proper facility conditions, maintain facility equipment, follow facility procedures, and coordinate with facilities management. Facility requirements ensure proper product storage and handling."
+    },
+    {
+        "question": "How do I handle products requiring special handling due to personnel requirements?",
+        "answer": "Ensure proper personnel are assigned, verify personnel qualifications, follow personnel procedures, and coordinate with human resources. Personnel requirements ensure proper product handling and safety."
+    },
+    {
+        "question": "What is the procedure for handling products requiring special handling due to process requirements?",
+        "answer": "Follow all process procedures, ensure proper process documentation, maintain process records, and coordinate with process management. Process requirements ensure consistent and proper product handling."
+    },
+    {
+        "question": "How do I handle products requiring special handling due to system requirements?",
+        "answer": "Use approved systems, ensure proper system access, follow system procedures, and coordinate with IT support. System requirements ensure proper product tracking and documentation."
+    },
+    {
+        "question": "What is the procedure for handling products requiring special handling due to audit requirements?",
+        "answer": "Maintain accurate records, ensure proper documentation, follow audit procedures, and coordinate with audit team. Audit requirements ensure regulatory compliance and quality assurance."
+    },
+    {
+        "question": "How do I handle products requiring special handling due to inspection requirements?",
+        "answer": "Follow all inspection procedures, ensure proper inspection documentation, maintain inspection records, and coordinate with inspection team. Inspection requirements ensure product quality and safety."
+    },
+    {
+        "question": "What is the procedure for handling products requiring special handling due to testing requirements?",
+        "answer": "Follow all testing procedures, ensure proper testing documentation, maintain testing records, and coordinate with testing team. Testing requirements ensure product quality and safety."
+    },
+    {
+        "question": "How do I handle products requiring special handling due to validation requirements?",
+        "answer": "Follow all validation procedures, ensure proper validation documentation, maintain validation records, and coordinate with validation team. Validation requirements ensure product quality and regulatory compliance."
+    },
+    {
+        "question": "What is the procedure for handling products requiring special handling due to verification requirements?",
+        "answer": "Follow all verification procedures, ensure proper verification documentation, maintain verification records, and coordinate with verification team. Verification requirements ensure product quality and accuracy."
+    },
+    {
+        "question": "How do I handle products requiring special handling due to approval requirements?",
+        "answer": "Obtain all required approvals before handling, ensure proper approval documentation, maintain approval records, and coordinate with approval authorities. Approval requirements ensure proper product handling and regulatory compliance."
+    },
+    {
+        "question": "What is the procedure for handling products requiring special handling due to authorization requirements?",
+        "answer": "Obtain all required authorizations before handling, ensure proper authorization documentation, maintain authorization records, and coordinate with authorization authorities. Authorization requirements ensure proper product handling and security."
+    },
+    {
+        "question": "How do I handle products requiring special handling due to certification requirements?",
+        "answer": "Verify all required certifications are current, ensure proper certification documentation, maintain certification records, and coordinate with certification authorities. Certification requirements ensure proper product handling and quality."
+    },
+    {
+        "question": "What is the procedure for handling products requiring special handling due to registration requirements?",
+        "answer": "Verify all required registrations are current, ensure proper registration documentation, maintain registration records, and coordinate with registration authorities. Registration requirements ensure proper product handling and regulatory compliance."
+    },
+    {
+        "question": "How do I handle products requiring special handling due to licensing requirements?",
+        "answer": "Verify all required licenses are current, ensure proper license documentation, maintain license records, and coordinate with licensing authorities. Licensing requirements ensure proper product handling and regulatory compliance."
+    },
+    {
+        "question": "What is the procedure for handling products requiring special handling due to permitting requirements?",
+        "answer": "Verify all required permits are current, ensure proper permit documentation, maintain permit records, and coordinate with permitting authorities. Permitting requirements ensure proper product handling and regulatory compliance."
+    },
+    {
+        "question": "How do I handle products requiring special handling due to notification requirements?",
+        "answer": "Provide all required notifications before handling, ensure proper notification documentation, maintain notification records, and coordinate with notification authorities. Notification requirements ensure proper product handling and regulatory compliance."
+    },
+    {
+        "question": "What is the procedure for handling products requiring special handling due to reporting requirements?",
+        "answer": "Provide all required reports, ensure proper report documentation, maintain report records, and coordinate with reporting authorities. Reporting requirements ensure proper product handling and regulatory compliance."
+    },
+    {
+        "question": "How do I handle products requiring special handling due to record-keeping requirements?",
+        "answer": "Maintain all required records, ensure proper record documentation, maintain record storage, and coordinate with records management. Record-keeping requirements ensure proper product handling and regulatory compliance."
+    },
+    {
+        "question": "What is the procedure for handling products requiring special handling due to documentation retention requirements?",
+        "answer": "Maintain documentation according to retention requirements, ensure proper documentation storage, maintain documentation organization, and coordinate with records management. Documentation retention requirements ensure proper product handling and regulatory compliance."
+    },
+    {
+        "question": "How do I handle products requiring special handling due to audit trail requirements?",
+        "answer": "Maintain complete audit trails, ensure proper audit trail documentation, maintain audit trail records, and coordinate with audit team. Audit trail requirements ensure proper product handling and regulatory compliance."
+    },
+    {
+        "question": "What is the procedure for handling products requiring special handling due to traceability requirements?",
+        "answer": "Maintain complete traceability records, ensure proper traceability documentation, maintain traceability systems, and coordinate with traceability team. Traceability requirements ensure proper product handling and regulatory compliance."
+    },
+    {
+        "question": "How do I handle products requiring special handling due to chain of custody requirements?",
+        "answer": "Maintain complete chain of custody records, ensure proper chain of custody documentation, maintain chain of custody procedures, and coordinate with chain of custody team. Chain of custody requirements ensure proper product handling and regulatory compliance."
+    },
+    {
+        "question": "What is the procedure for handling products requiring special handling due to quality control requirements?",
+        "answer": "Follow all quality control procedures, ensure proper quality control documentation, maintain quality control records, and coordinate with quality control team. Quality control requirements ensure proper product handling and quality assurance."
+    },
+    {
+        "question": "How do I handle products requiring special handling due to quality assurance requirements?",
+        "answer": "Follow all quality assurance procedures, ensure proper quality assurance documentation, maintain quality assurance records, and coordinate with quality assurance team. Quality assurance requirements ensure proper product handling and quality."
+    },
+    {
+        "question": "What is the procedure for handling products requiring special handling due to compliance requirements?",
+        "answer": "Follow all compliance procedures, ensure proper compliance documentation, maintain compliance records, and coordinate with compliance team. Compliance requirements ensure proper product handling and regulatory compliance."
+    },
+    {
+        "question": "How do I handle products requiring special handling due to regulatory compliance requirements?",
+        "answer": "Follow all regulatory compliance procedures, ensure proper regulatory compliance documentation, maintain regulatory compliance records, and coordinate with regulatory compliance team. Regulatory compliance requirements ensure proper product handling and regulatory compliance."
+    },
+    {
+        "question": "What is the procedure for handling products requiring special handling due to safety compliance requirements?",
+        "answer": "Follow all safety compliance procedures, ensure proper safety compliance documentation, maintain safety compliance records, and coordinate with safety compliance team. Safety compliance requirements ensure proper product handling and safety."
+    },
+    {
+        "question": "How do I handle products requiring special handling due to environmental compliance requirements?",
+        "answer": "Follow all environmental compliance procedures, ensure proper environmental compliance documentation, maintain environmental compliance records, and coordinate with environmental compliance team. Environmental compliance requirements ensure proper product handling and environmental protection."
+    },
+    {
+        "question": "What is the procedure for handling products requiring special handling due to health compliance requirements?",
+        "answer": "Follow all health compliance procedures, ensure proper health compliance documentation, maintain health compliance records, and coordinate with health compliance team. Health compliance requirements ensure proper product handling and health safety."
+    },
+    {
+        "question": "How do I handle products requiring special handling due to security compliance requirements?",
+        "answer": "Follow all security compliance procedures, ensure proper security compliance documentation, maintain security compliance records, and coordinate with security compliance team. Security compliance requirements ensure proper product handling and security."
+    }
+]
+
