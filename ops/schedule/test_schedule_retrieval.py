@@ -4,14 +4,15 @@ Test script to test schedule retrieval based on user questions.
 This script:
 1. Loads the ChromaDB collection with schedule embeddings
 2. Allows testing similarity search with user questions
-3. Displays relevant schedule information with similarity scores
+3. Uses LLM to synthesize search results into natural language answers
+4. Displays relevant schedule information with similarity scores
 """
 
 import os
 import logging
-from typing import List, Dict
+from typing import List, Dict, Optional
 from dotenv import load_dotenv
-from langchain_openai import OpenAIEmbeddings
+from langchain_openai import OpenAIEmbeddings, ChatOpenAI
 from langchain_chroma import Chroma
 
 # Load environment variables
@@ -138,17 +139,101 @@ def search_schedules(vectordb: Chroma, query: str, k: int = 3) -> List[Dict]:
         return []
 
 
-def display_results(query: str, results: List[Dict]) -> None:
-    """Display search results in a formatted way.
+def generate_llm_answer(llm: ChatOpenAI, query: str, results: List[Dict]) -> Optional[str]:
+    """Use LLM to synthesize search results into a natural language answer.
+    
+    Args:
+        llm (ChatOpenAI): The LLM instance to use for answer generation
+        query (str): The user's original question
+        results (List[Dict]): List of schedule search results
+        
+    Returns:
+        Optional[str]: Natural language answer, or None if generation fails
+    """
+    if not results:
+        return None
+    
+    try:
+        # Format the retrieved schedule information
+        retrieved_info = []
+        for idx, result in enumerate(results, 1):
+            info_parts = [f"Result {idx}:"]
+            info_parts.append(f"Type: {result['type']}")
+            info_parts.append(f"Driver: {result['driver_name']} (ID: {result['driver_id']})")
+            info_parts.append(f"Date: {result['date']}")
+            
+            if result.get('stop_number'):
+                info_parts.append(f"Stop Number: {result['stop_number']}")
+                info_parts.append(f"Stop Type: {result['stop_type']}")
+            if result.get('source_name'):
+                info_parts.append(f"Source: {result['source_name']}")
+            if result.get('destination_name'):
+                info_parts.append(f"Destination: {result['destination_name']}")
+            if result.get('delivery_time'):
+                info_parts.append(f"Delivery Time: {result['delivery_time']}")
+            if result.get('deadline'):
+                info_parts.append(f"Deadline: {result['deadline']}")
+            if result.get('priority'):
+                info_parts.append(f"Priority: {result['priority']}")
+            
+            info_parts.append(f"Content: {result['content']}")
+            retrieved_info.append("\n".join(info_parts))
+        
+        retrieved_text = "\n\n".join(retrieved_info)
+        
+        # Create prompt for LLM
+        prompt = f"""You are a helpful logistics assistant. Based on the following retrieved schedule information, answer the user's question in a clear, natural, and comprehensive way.
+
+User Question: {query}
+
+Retrieved Schedule Information:
+{retrieved_text}
+
+Instructions:
+- Provide a clear, direct answer to the user's question
+- Use the retrieved information to answer accurately
+- If the information doesn't fully answer the question, say so
+- Be concise but comprehensive
+- Use natural, conversational language
+- Include relevant details like driver names, locations, times, packages, etc. when relevant
+- If multiple results are provided, synthesize them into a coherent answer
+
+Answer:"""
+
+        response = llm.invoke(prompt)
+        answer = response.content.strip()
+        
+        return answer
+        
+    except Exception as e:
+        logger.error(f"Error generating LLM answer: {e}")
+        return None
+
+
+def display_results(query: str, results: List[Dict], llm: Optional[ChatOpenAI] = None) -> None:
+    """Display search results in a formatted way, optionally with LLM-generated answer.
     
     Args:
         query (str): The original query
         results (List[Dict]): List of schedule results
+        llm (Optional[ChatOpenAI]): Optional LLM instance for generating answers
     """
     print("\n" + "=" * 80)
     print(f"Query: {query}")
     print("=" * 80)
-    print(f"Found {len(results)} relevant schedule entry(ies):\n")
+    
+    # Generate LLM answer if LLM is provided
+    if llm and results:
+        print("\n🤖 AI Answer:")
+        print("-" * 80)
+        answer = generate_llm_answer(llm, query, results)
+        if answer:
+            print(answer)
+        else:
+            print("Could not generate AI answer. Showing raw results below.")
+        print("-" * 80)
+    
+    print(f"\n📋 Found {len(results)} relevant schedule entry(ies):\n")
     
     for idx, result in enumerate(results, 1):
         print(f"Result {idx}:")
@@ -184,11 +269,12 @@ def display_results(query: str, results: List[Dict]) -> None:
         print("-" * 80)
 
 
-def interactive_test(vectordb: Chroma) -> None:
+def interactive_test(vectordb: Chroma, llm: Optional[ChatOpenAI] = None) -> None:
     """Interactive testing mode.
     
     Args:
         vectordb (Chroma): ChromaDB vector store instance
+        llm (Optional[ChatOpenAI]): Optional LLM instance for generating answers
     """
     print("\n" + "=" * 80)
     print("Schedule Retrieval Test - Interactive Mode")
@@ -209,12 +295,15 @@ def interactive_test(vectordb: Chroma) -> None:
                 continue
             
             # Search for relevant schedule information
+            print("🔍 Searching schedule database...")
             results = search_schedules(vectordb, query, k=3)
             
             if results:
-                display_results(query, results)
+                if llm:
+                    print("🤖 Generating answer...")
+                display_results(query, results, llm)
             else:
-                print(f"\nNo relevant schedule information found for: {query}\n")
+                print(f"\n❌ No relevant schedule information found for: {query}\n")
             
             print()  # Empty line for readability
             
@@ -226,22 +315,23 @@ def interactive_test(vectordb: Chroma) -> None:
             print(f"Error: {e}\n")
 
 
-def test_predefined_queries(vectordb: Chroma) -> None:
+def test_predefined_queries(vectordb: Chroma, llm: Optional[ChatOpenAI] = None) -> None:
     """Test with predefined queries.
     
     Args:
         vectordb (Chroma): ChromaDB vector store instance
+        llm (Optional[ChatOpenAI]): Optional LLM instance for generating answers
     """
     test_queries = [
-        "What's my route for today?",
+        # "What's my route for today?",
         # "What deliveries do I have today?",
         # "Where do I need to deliver packages?",
-        # "What time is my first delivery?",
+        #"What time is my first delivery?",
         # "What packages am I delivering to Medical City Plano?",
         # "What are my special instructions?",
         # "What temperature requirements do my packages have?",
         # "What is my delivery deadline?",
-        # "What is my total distance for today?",
+        "What is my total distance for today?",
         # "What are the addresses for my deliveries?",
         # "What packages require temperature control?",
         # "What is my schedule for today?",
@@ -251,9 +341,10 @@ def test_predefined_queries(vectordb: Chroma) -> None:
     print("Schedule Retrieval Test - Predefined Queries")
     print("=" * 80)
     
-    for query in test_queries:
+    for idx, query in enumerate(test_queries, 1):
+        print(f"\n[{idx}/{len(test_queries)}] Processing query...")
         results = search_schedules(vectordb, query, k=3)
-        display_results(query, results)
+        display_results(query, results, llm)
         print("\n")
 
 
@@ -274,6 +365,15 @@ def main() -> None:
         logger.info("Loading ChromaDB collection...")
         vectordb = load_chromadb_collection(CHROMADB_DIR, COLLECTION_NAME)
         
+        # Initialize LLM for answer generation
+        logger.info("Initializing LLM for answer generation...")
+        llm = ChatOpenAI(
+            model="gpt-4o-mini",  # Using mini for cost efficiency
+            temperature=0.3,
+            api_key=os.getenv("OPENAI_API_KEY")
+        )
+        logger.info("✅ LLM initialized successfully")
+        
         # Ask user for test mode
         print("\n" + "=" * 80)
         print("Schedule Retrieval Test")
@@ -286,17 +386,17 @@ def main() -> None:
         choice = input("\nEnter your choice (1/2/3): ").strip()
         
         if choice == "1":
-            interactive_test(vectordb)
+            interactive_test(vectordb, llm)
         elif choice == "2":
-            test_predefined_queries(vectordb)
+            test_predefined_queries(vectordb, llm)
         elif choice == "3":
-            test_predefined_queries(vectordb)
+            test_predefined_queries(vectordb, llm)
             print("\n" + "=" * 80)
             print("Now entering interactive mode...")
-            interactive_test(vectordb)
+            interactive_test(vectordb, llm)
         else:
             print("Invalid choice. Running predefined queries by default...")
-            test_predefined_queries(vectordb)
+            test_predefined_queries(vectordb, llm)
         
         logger.info("***** Test Completed *****")
         

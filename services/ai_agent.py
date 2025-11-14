@@ -258,6 +258,8 @@ class LogisticsAIAgent:
             - Route distances and estimated drive times
             - Package priorities and handling requirements
             
+            Note: Default driver is DRV001 (John Martinez). When users ask about "my route", "my deliveries", etc., search for this driver.
+            
             Args:
                 question: The user's question or query about driver schedules, routes, or deliveries
                 
@@ -271,8 +273,17 @@ class LogisticsAIAgent:
                         "human_assistance_required": True
                     })
                 
+                # Enhance query with driver context if it's a personal question
+                # Default driver: DRV001 (John Martinez)
+                enhanced_question = question
+                personal_indicators = ["my route", "my delivery", "my schedule", "my stop", "my package", "my deliveries", "my stops"]
+                if any(indicator in question.lower() for indicator in personal_indicators):
+                    # Add driver context to improve search relevance
+                    enhanced_question = f"{question} DRV001 John Martinez"
+                    logger.info(f"Enhanced schedule query with driver context: {enhanced_question}")
+                
                 # Perform similarity search
-                results = self.chroma_db_schedules.similarity_search_with_score(question, k=3)
+                results = self.chroma_db_schedules.similarity_search_with_score(enhanced_question, k=3)
                 logger.info(f"📅 Found {len(results)} relevant schedule entries")
                 
                 if results:
@@ -302,21 +313,18 @@ class LogisticsAIAgent:
                         schedule_list.append(schedule_entry)
                     
                     if schedule_list:
-                        # Format schedule information as readable text
+                        # Format schedule information - content is already in natural language format
+                        # from LLM conversion, so we can use it directly with minimal formatting
                         schedule_text_parts = []
                         for entry in schedule_list:
-                            if entry["type"] == "route_summary":
-                                schedule_text_parts.append(f"Route Summary for {entry['driver_name']}:\n{entry['content']}")
-                            else:
-                                stop_info = f"Stop {entry.get('stop_number', 'N/A')}"
-                                if entry.get('destination'):
-                                    stop_info += f" - {entry['destination']}"
-                                schedule_text_parts.append(f"{stop_info}:\n{entry['content']}")
+                            # Content is already in readable natural language format
+                            # Just add a separator between multiple results
+                            schedule_text_parts.append(entry['content'])
                         
-                        schedule_text = "\n\n".join(schedule_text_parts)
+                        schedule_text = "\n\n---\n\n".join(schedule_text_parts)
                         
                         return json.dumps({
-                            "text_msg": f"Found relevant schedule information:\n\n{schedule_text}",
+                            "text_msg": schedule_text,
                             "human_assistance_required": False
                         })
                     else:
@@ -348,6 +356,11 @@ class LogisticsAIAgent:
         # Create system prompt for ReAct agent
         react_system_prompt = """You are a helpful logistics assistant for a medical distributor logistics department.
 
+DRIVER INFORMATION:
+- Default Driver ID: DRV001
+- Default Driver Name: John Martinez
+- When users ask about "my route", "my deliveries", "my schedule", etc., they are referring to driver DRV001 (John Martinez). You should automatically search for this driver's schedule information without asking for driver details.
+
 CRITICAL RULES:
 - For simple greetings like "Hi", "Hello", "Hey", "Bye", "Thank you", "Thanks" - do not use any tools and provide the final answer immediately. Keep responses concise and natural (e.g., "You're welcome!" for "Thank you").
 - NEVER mention "tools", "FAQ tool", "handbook tool", "schedule tool", "get_help tool", "human assistance", "database", "search", or any internal system processes to the user. Always respond as if you naturally know or don't know the information directly.
@@ -361,7 +374,7 @@ EMERGENCY RULE: For any immediate/emergency/incident/accident situations (fire, 
 You have access to the following tools:
 1. search_faqs(question) - Search the FAQ database for quick answers about standard operating procedures, policies, and common questions. Use this for: standard procedures, quick policy questions, common operational questions, employee policies, basic safety procedures. FAQs provide concise, direct answers.
 2. search_handbook(question) - Search the comprehensive logistics handbook for detailed information, in-depth procedures, guidelines, and best practices. Use this for: detailed operational procedures, comprehensive safety protocols, driving and transportation guidelines, manpower management, detailed compliance information, training requirements, equipment specifications, and when you need more comprehensive information than FAQs provide.
-3. search_schedules(question) - Search driver schedules and delivery routes for information about daily routes, deliveries, packages, destinations, and delivery times. Use this for: questions about driver routes ("What's my route for today?", "What deliveries do I have?"), delivery destinations and addresses, package details and contents, delivery times and deadlines, special instructions, pickup locations, route distances, and package priorities. This tool provides real-time schedule and delivery information.
+3. search_schedules(question) - Search driver schedules and delivery routes for information about daily routes, deliveries, packages, destinations, and delivery times. Use this for: questions about driver routes ("What's my route for today?", "What deliveries do I have?"), delivery destinations and addresses, package details and contents, delivery times and deadlines, special instructions, pickup locations, route distances, and package priorities. This tool provides real-time schedule and delivery information. IMPORTANT: The default driver is DRV001 (John Martinez). When users ask about "my route", "my deliveries", "my schedule", etc., automatically search for DRV001's schedule without asking for driver details.
 4. get_help() - Request human assistance. ALWAYS use this immediately for: (1) emergency/incident/accident situations, (2) requests requiring actions (cancellations, refunds, order changes, billing disputes, complaints, etc.), (3) explicit requests to connect with support ("connect me with support", "I need to speak with someone", "get me a human", etc.), (4) when search_faqs, search_handbook, and search_schedules don't provide sufficient information. IMPORTANT: When you use get_help tool, use the EXACT response message from the tool - do NOT modify it or add placeholder text. Simply use the tool's response as your final answer.
 
 Instructions:
@@ -377,8 +390,9 @@ Instructions:
 - If you cannot provide information after trying the search tools, use get_help tool.
 
 Examples:
-- "What's my route for today?" / "What deliveries do I have?" / "Where do I need to deliver packages?": Use search_schedules tool to find driver route and delivery information.
-- "What packages am I delivering to Medical City Plano?": Use search_schedules tool to find specific delivery and package details.
+- "What's my route for today?" / "What deliveries do I have?" / "Where do I need to deliver packages?": Use search_schedules tool to find driver route and delivery information for DRV001 (John Martinez). Do NOT ask which driver - assume it's the default driver.
+- "What packages am I delivering to Medical City Plano?": Use search_schedules tool to find specific delivery and package details for DRV001 (John Martinez).
+- "What's my last stop today?": Use search_schedules tool to find the last stop for DRV001 (John Martinez).
 - "How do I handle temperature-sensitive medications?": First try search_faqs for a quick answer. If more detail is needed, also try search_handbook.
 - "What are the detailed safety procedures for driving?": Use search_handbook tool for comprehensive information.
 - "What is the procedure for receiving medical supplies?": First try search_faqs, then search_handbook if more detail is needed.
