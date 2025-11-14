@@ -56,7 +56,7 @@ else:
                     conversation_db=conversation_db,
                     session_id=session_id
                 )
-                st.success("✅ AI agent initialized successfully!")
+                logger.info("✅ AI agent initialized successfully!")
             except Exception as e:
                 st.error(f"❌ Failed to initialize AI agent: {str(e)}")
                 st.session_state.ai_agent = None
