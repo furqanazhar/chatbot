@@ -18,7 +18,7 @@ load_dotenv()
 
 
 class LogisticsAIAgent:
-    """AI Agent for Logistics chatbot using LangChain with FAQ, handbook, schedule, conversation history, and get_help tools"""
+    """AI Agent for Logistics using LangChain with FAQ, handbook, schedule, conversation history, and get_help tools"""
     
     def __init__(self, chromadb_dir: str = "chroma_db", faq_collection: str = "faqs", handbook_collection: str = "handbook", schedule_collection: str = "schedules", conversation_db=None, session_id=None):
         self.openai_api_key = os.getenv("OPENAI_API_KEY")

@@ -1,6 +1,6 @@
-# 🚚 Logistics Chatbot
+# 🚚 Logistics Agent
 
-An intelligent logistics assistant chatbot powered by LangChain, ReAct agent, and OpenAI. This chatbot helps with logistics operations, procedures, schedules, and provides context-aware responses using conversation history.
+An intelligent logistics assistant agent powered by LangChain, ReAct agent, and OpenAI. This agent helps with logistics operations, procedures, schedules, and provides context-aware responses using conversation history.
 
 ## Features
 
@@ -60,7 +60,7 @@ An intelligent logistics assistant chatbot powered by LangChain, ReAct agent, an
 ## Project Structure
 
 ```
-chatbot/
+agent/
 ├── streamlit_app.py          # Main Streamlit application
 ├── services/
 │   ├── ai_agent.py          # LangChain ReAct agent with tools
